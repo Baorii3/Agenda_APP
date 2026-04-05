@@ -1,0 +1,38 @@
+{
+  "UserAgent": "aws-amplify-cli/2.0",
+  "Version": "1.0",
+  "auth": {
+    "plugins": {
+      "awsCognitoAuthPlugin": {
+        "UserAgent": "aws-amplify-cli/0.1.0",
+        "Version": "0.1.0",
+        "IdentityManager": {
+          "Default": {}
+        },
+        "CognitoUserPool": {
+          "Default": {
+            "PoolId": "us-east-1_eXOAp74KV",
+            "AppClientId": "5u259dphsi29sjqo8vj9fhv2me",
+            "Region": "us-east-1"
+          }
+        },
+        "Auth": {
+          "Default": {
+            "OAuth": {
+              "WebDomain": "agenda-barata-auth-c44f17.auth.us-east-1.amazoncognito.com",
+              "AppClientId": "5u259dphsi29sjqo8vj9fhv2me",
+              "SignInRedirectURI": "agenda-app://callback",
+              "SignOutRedirectURI": "agenda-app://signout",
+              "Scopes": [
+                "openid",
+                "email",
+                "profile"
+              ]
+            },
+            "authenticationFlowType": "USER_SRP_AUTH"
+          }
+        }
+      }
+    }
+  }
+}
