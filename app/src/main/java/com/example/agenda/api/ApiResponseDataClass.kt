@@ -37,3 +37,12 @@ enum class Estat {
     programada,
     cancelada
 }
+
+data class UsuariResponseDto(
+    val nom: String?,
+    val email: String,
+    val rol: String?,
+    val actiu: Boolean?,
+    val provider: String?,
+    val providerId: String?
+)

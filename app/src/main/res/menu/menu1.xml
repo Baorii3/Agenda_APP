@@ -15,5 +15,8 @@
     <item
         android:id="@+id/nav_login"
         android:title="Iniciar Sesión" />
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Cerrar Sesión" />
 
 </menu>
