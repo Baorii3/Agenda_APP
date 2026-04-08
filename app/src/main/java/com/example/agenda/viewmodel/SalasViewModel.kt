@@ -6,6 +6,7 @@ import com.example.agenda.api.Api
 import com.example.agenda.api.SalaResponseDto
 import androidx.lifecycle.viewModelScope
 import com.example.agenda.api.ActivitatResponseDto
+import com.example.agenda.api.SalaRequestDto
 import kotlinx.coroutines.launch
 
 class SalaViewModel : ViewModel() {
@@ -54,4 +55,23 @@ class SalaViewModel : ViewModel() {
         }
     }
 
+    fun addSala(sala: SalaRequestDto) {
+        viewModelScope.launch {
+            try {
+                val response = Api.getSalaService().crearSala(sala)
+                if (response.isSuccessful) {
+                    val nuevaSala = response.body()
+                    if (nuevaSala != null) {
+                        val salasActuales = _salas.value ?: mutableListOf()
+                        salasActuales.add(nuevaSala)
+                        _salas.postValue(salasActuales)
+                    }
+                } else {
+                    Log.e("API", "Error HTTP al crear sala: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("API", "Error de conexión al crear sala", e)
+            }
+        }
+    }
 }

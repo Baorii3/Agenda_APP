@@ -2,15 +2,20 @@ package com.example.agenda
 
 import android.media.Image
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.amplifyframework.core.Amplify
+import com.example.agenda.api.PisoSala
+import com.example.agenda.api.SalaRequestDto
+import com.example.agenda.dialogs.CreateSalaDialog
 import com.example.agenda.recyclers.SalaAdapter
 import com.example.agenda.viewmodel.UserViewModel
 
@@ -52,11 +57,32 @@ class HomeFragment : Fragment() {
         }
 
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
+        btnAdd.setOnClickListener {
+            if (parentFragmentManager.findFragmentByTag("CreateSalaDialog") == null) {
+                CreateSalaDialog().show(parentFragmentManager, "CreateSalaDialog")
+            }
+        }
 
-        viewModelUsuari.isLogged.observe(viewLifecycleOwner) { logged ->
-            if (logged) {
+        parentFragmentManager.setFragmentResultListener("createSalaRequest", this) { _, bundle ->
+            val nom = bundle.getString("nom")
+            val ubicacio = bundle.getString("ubicacio")
+            val descripcio = bundle.getString("descripcio")
+            val activa = bundle.getBoolean("activa", false)
+            val sala = SalaRequestDto(
+                nom = nom ?: "",
+                ubicacio = PisoSala.valueOf(ubicacio ?: "P0"),
+                descripcio = descripcio ?: "",
+                activa = true
+            )
+            viewModel.addSala(sala)
+        }
+
+        viewModelUsuari.user.observe(viewLifecycleOwner) { user ->
+            if (user != null) {
+                Log.d("HomeFragment", "Usuario logueado, mostrando botón de añadir sala")
                 btnAdd.visibility = View.VISIBLE
             } else {
+                Log.d("HomeFragment", "Usuario NNOOOO logueado, mostrando botón de añadir sala")
                 btnAdd.visibility = View.GONE
             }
         }

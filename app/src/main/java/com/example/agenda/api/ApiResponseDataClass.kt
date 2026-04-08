@@ -4,14 +4,25 @@ import com.google.gson.annotations.SerializedName
 
 data class SalaResponseDto(
     val nom: String,
-    val tipus: String,
-    val ubicacio: String,
+    val ubicacio: PisoSala,
     val descripcio: String,
     val activa: Boolean,
     val dataCreacio: String,
     val dataModificacio: String,
     val id: Long
 )
+
+data class SalaRequestDto(
+    val nom: String,
+    val ubicacio: PisoSala,
+    val descripcio: String,
+    val activa: Boolean
+)
+
+enum class PisoSala {
+    P0, P4, P5
+}
+
 
 data class ActivitatResponseDto(
 

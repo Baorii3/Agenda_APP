@@ -73,6 +73,7 @@ class MainActivity : AppCompatActivity() {
                     Amplify.Auth.signOut { signOutResult ->
                         Log.i("AuthQuickstart", "Resultado de cerrar sesión: $signOutResult")
                         actualizarMenu(false)
+                        viewModelUsuari.setUser(null)
                     }
                     binding.drawerLayout.closeDrawers()
                 }
@@ -101,6 +102,7 @@ class MainActivity : AppCompatActivity() {
                                                         val usuario = response.body()
                                                         Log.i("API", "Usuario creado: $usuario")
                                                         actualizarMenu(true)
+                                                        viewModelUsuari.setUser(usuario)
                                                     } else{
                                                         Log.e("API", "Error HTTP al crear usuario: ${response.code()}")
                                                         Amplify.Auth.signOut { actualizarMenu(false) }
@@ -139,6 +141,7 @@ class MainActivity : AppCompatActivity() {
         runOnUiThread {
             viewModelUsuari.setEstaLogueado(true)
             val menu = binding.navView.menu
+
             menu.findItem(R.id.nav_login)?.isVisible = !estaLogueado
             menu.findItem(R.id.nav_logout)?.isVisible = estaLogueado
         }
