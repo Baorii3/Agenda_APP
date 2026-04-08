@@ -13,6 +13,9 @@ class UserViewModel : ViewModel() {
     private val _isLogged = MutableLiveData<Boolean>(false)
     val isLogged: LiveData<Boolean> = _isLogged
 
+    init {
+        _user.postValue(null)
+    }
     fun setEstaLogueado(isLogged: Boolean) {
         _isLogged.value = isLogged
 

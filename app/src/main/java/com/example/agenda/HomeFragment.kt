@@ -57,6 +57,11 @@ class HomeFragment : Fragment() {
         }
 
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
+        if (viewModelUsuari.isLogged.value == true) {
+            btnAdd.visibility = View.VISIBLE
+        } else {
+            btnAdd.visibility = View.GONE
+        }
         btnAdd.setOnClickListener {
             if (parentFragmentManager.findFragmentByTag("CreateSalaDialog") == null) {
                 CreateSalaDialog().show(parentFragmentManager, "CreateSalaDialog")

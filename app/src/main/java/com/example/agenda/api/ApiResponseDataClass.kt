@@ -55,5 +55,6 @@ data class UsuariResponseDto(
     val rol: String?,
     val actiu: Boolean?,
     val provider: String?,
-    val providerId: String?
+    val providerId: String?,
+    val fotoPerfil: String?
 )

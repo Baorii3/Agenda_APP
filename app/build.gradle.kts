@@ -51,6 +51,7 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.glide)
 
     // Arquitectura (ViewModels y Fragments)
     implementation(libs.androidx.fragment.ktx)
@@ -65,6 +66,7 @@ dependencies {
 
     // AWS Amplify y soporte para Java antiguo
     implementation(libs.aws.auth.cognito)
+    implementation(libs.play.services.maps3d)
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     implementation(libs.androidx.browser)
 
