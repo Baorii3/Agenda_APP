@@ -23,28 +23,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModelUsuari: UserViewModel by viewModels<UserViewModel>()
 
+    // Instancia de AuthManager
+    private val authManager = AuthManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        try {
-            Amplify.addPlugin(AWSCognitoAuthPlugin())
-            Amplify.configure(applicationContext)
-            Log.i("AuthQuickstart", "Amplify configurado correctamente")
-        } catch (error: AmplifyException) {
-            Log.w("AuthQuickstart", "Amplify ya estaba configurado, continuamos.")
-        }
+
+        // Intentamos iniciar amplify
+        authManager.inicializarAmplify(applicationContext)
+
         enableEdgeToEdge()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, HomeFragment())
-            .commit()
-        /*if (savedInstanceState == null) {
+        if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, LoginFragment())
+                .replace(R.id.fragment_container, HomeFragment())
                 .commit()
-        }*/
+        }
 
         val toogle = ActionBarDrawerToggle(
             this, binding.drawerLayout,binding.toolbar, R.string.open_drawer, R.string.close_drawer
@@ -52,15 +48,8 @@ class MainActivity : AppCompatActivity() {
         binding.drawerLayout.addDrawerListener(toogle)
         toogle.drawerArrowDrawable.color = resources.getColor(R.color.white, theme)
         toogle.syncState()
-        Amplify.Auth.fetchAuthSession(
-            { sessionResult ->
-                val session = sessionResult as AWSCognitoAuthSession
-                val isSignedIn = session.isSignedIn
-                Log.i("AuthQuickstart", "Usuario logueado: $isSignedIn")
-                actualizarMenu(isSignedIn)
-            },
-            { error -> Log.e("AuthQuickstart", "Fallo al obtener la sesión", error) }
-        )
+
+        checkUserSession()
 
         binding.navView.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
@@ -70,63 +59,27 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                 }
                 R.id.nav_logout -> {
-                    Amplify.Auth.signOut { signOutResult ->
-                        Log.i("AuthQuickstart", "Resultado de cerrar sesión: $signOutResult")
-                        actualizarMenu(false)
-                        viewModelUsuari.setUser(null)
-                    }
-                    binding.drawerLayout.closeDrawers()
+                    authManager.logOut{ viewModelUsuari.setUser(null) }
                 }
                 R.id.nav_login -> {
-                    Amplify.Auth.signInWithSocialWebUI(
-                        AuthProvider.google(), this,
-                        { result ->
-                            Log.i("AuthQuickstart", "Sign in succeeded: $result")
-                            Amplify.Auth.fetchAuthSession(
-                                { sessionResult ->
-                                    val session = sessionResult as AWSCognitoAuthSession
-                                    val tokens = session.userPoolTokensResult.value
-
-                                    if (tokens != null) {
-                                        val accessToken = tokens.accessToken
-                                        val idToken = tokens.idToken
-                                        Log.i("MI_TOKEN", "Access Token: $accessToken")
-                                        Log.i("MI_TOKEN", "ID Token: $idToken")
-                                        if (idToken != null) {
-                                            val authHeader = "Bearer $idToken"
-                                            lifecycleScope.launch {
-                                                try {
-                                                    val response = Api.getUsuariService().crearUsuario(authHeader)
-
-                                                    if (response.isSuccessful){
-                                                        val usuario = response.body()
-                                                        Log.i("API", "Usuario creado: $usuario")
-                                                        actualizarMenu(true)
-                                                        viewModelUsuari.setUser(usuario)
-                                                    } else{
-                                                        Log.e("API", "Error HTTP al crear usuario: ${response.code()}")
-                                                        Amplify.Auth.signOut { actualizarMenu(false) }
-                                                    }
-                                                } catch (e: Exception) {
-                                                    Log.e("API", "Error de conexión al crear usuario", e)
-                                                }
-                                            }
-                                        }
-
-                                    } else {
-                                        Log.w("MI_TOKEN", "Sign in succeeded but no tokens found")
-                                    }
-                                },
-                                { error -> Log.e("MI_TOKEN", "Fallo al obtener la sesión", error) }
-                            )
-                        },
-                        { error -> Log.e("AuthQuickstart", "Sign in failed", error) }
-                    )
+                    authManager.loginWithGoogle(this){
+                        checkUserSession()
+                    }
                 }
-
+                R.id.nav_profile -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, PerfilFragment())
+                        .commit()
+                }
             }
             binding.drawerLayout.closeDrawers()
             true
+        }
+
+        viewModelUsuari.user.observe(this) { user ->
+            binding.navView.menu.findItem(R.id.nav_logout).isVisible = (user != null)
+            binding.navView.menu.findItem(R.id.nav_login).isVisible = (user == null)
+
         }
     }
 
@@ -136,14 +89,15 @@ class MainActivity : AppCompatActivity() {
             Amplify.Auth.handleWebUISignInResponse(intent)
         }
     }
-
-    fun actualizarMenu(estaLogueado: Boolean) {
-        runOnUiThread {
-            viewModelUsuari.setEstaLogueado(true)
-            val menu = binding.navView.menu
-
-            menu.findItem(R.id.nav_login)?.isVisible = !estaLogueado
-            menu.findItem(R.id.nav_logout)?.isVisible = estaLogueado
+    fun checkUserSession() {
+        authManager.checkSessionAndGetToken { authHeader ->
+            if (authHeader != null) {
+                viewModelUsuari.fetchUserData(authHeader) {
+                    authManager.logOut { viewModelUsuari.setUser(null) }
+                }
+            } else {
+                viewModelUsuari.setUser(null)
+            }
         }
     }
 }
