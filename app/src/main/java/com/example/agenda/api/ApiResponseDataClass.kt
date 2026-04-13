@@ -1,27 +1,24 @@
 package com.example.agenda.api
 
+import android.R
 import com.google.gson.annotations.SerializedName
 
 data class SalaResponseDto(
+    @SerializedName("id_sala")
+    val id: Long,
     val nom: String,
-    val ubicacio: PisoSala,
+    val ubicacio: String,
     val descripcio: String,
     val activa: Boolean,
-    val dataCreacio: String,
-    val dataModificacio: String,
-    val id: Long
+    val colorHex: String
 )
 
 data class SalaRequestDto(
     val nom: String,
-    val ubicacio: PisoSala,
+    val ubicacio: String,
     val descripcio: String,
-    val activa: Boolean
 )
 
-enum class PisoSala {
-    P0, P4, P5
-}
 
 
 data class ActivitatResponseDto(
@@ -30,31 +27,25 @@ data class ActivitatResponseDto(
     val idActivitat: Long,
     @SerializedName("id_sala")
     val idSala: Long,
-    @SerializedName("google_id")
-    val googleId: String,
+    @SerializedName("nom_sala")
+    val nomSala: String,
+    @SerializedName("id_usuari")
+    val idUsuari: Long,
+    @SerializedName("nom_usuari")
+    val nomUsuari: String,
     val titol: String,
-    val resum: String,
     val descripcio: String,
     val data: String,
     val horaInici: String,
     val horaFi: String,
-    val estat: Estat,
-    val visible: Boolean,
-    val dataCreacio: String,
-    val dataModificacio: String
+    val activa: Boolean
 )
-
-enum class Estat {
-    programada,
-    cancelada
-}
-
 data class UsuariResponseDto(
-    val nom: String?,
+    @SerializedName("id_usuari")
+    val idUsuari: Long,
+    val nom: String,
     val email: String,
-    val rol: String?,
-    val actiu: Boolean?,
-    val provider: String?,
-    val providerId: String?,
-    val fotoPerfil: String?
+    val rol: String,
+    val permisos: List<String>,
+    val picture: String
 )

@@ -43,7 +43,7 @@ class AuthManager {
                 val session = sessionResult as AWSCognitoAuthSession
                 val tokens = session.userPoolTokensResult.value
                 val idToken = tokens?.idToken
-
+                Log.d("AuthManager", "ID Token obtenido: $idToken")
                 if (idToken != null) {
                     onTokenReceived("Bearer $idToken")
                 } else {

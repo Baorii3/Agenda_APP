@@ -1,6 +1,5 @@
 package com.example.agenda
 
-import android.media.Image
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,12 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.amplifyframework.core.Amplify
-import com.example.agenda.api.PisoSala
 import com.example.agenda.api.SalaRequestDto
 import com.example.agenda.dialogs.CreateSalaDialog
 import com.example.agenda.recyclers.SalaAdapter
@@ -57,11 +53,6 @@ class HomeFragment : Fragment() {
         }
 
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
-        if (viewModelUsuari.isLogged.value == true) {
-            btnAdd.visibility = View.VISIBLE
-        } else {
-            btnAdd.visibility = View.GONE
-        }
         btnAdd.setOnClickListener {
             if (parentFragmentManager.findFragmentByTag("CreateSalaDialog") == null) {
                 CreateSalaDialog().show(parentFragmentManager, "CreateSalaDialog")
@@ -72,12 +63,10 @@ class HomeFragment : Fragment() {
             val nom = bundle.getString("nom")
             val ubicacio = bundle.getString("ubicacio")
             val descripcio = bundle.getString("descripcio")
-            val activa = bundle.getBoolean("activa", false)
             val sala = SalaRequestDto(
                 nom = nom ?: "",
-                ubicacio = PisoSala.valueOf(ubicacio ?: "P0"),
+                ubicacio = ubicacio ?: "P0",
                 descripcio = descripcio ?: "",
-                activa = true
             )
             viewModel.addSala(sala)
         }
@@ -91,7 +80,6 @@ class HomeFragment : Fragment() {
                 btnAdd.visibility = View.GONE
             }
         }
-
         return view
     }
 

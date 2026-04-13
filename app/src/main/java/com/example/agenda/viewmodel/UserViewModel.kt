@@ -19,10 +19,6 @@ class UserViewModel : ViewModel() {
     init {
         _user.postValue(null)
     }
-    fun setEstaLogueado(isLogged: Boolean) {
-        _isLogged.value = isLogged
-
-    }
 
     fun setUser(user: UsuariResponseDto?) {
         _user.postValue(user)
@@ -45,6 +41,4 @@ class UserViewModel : ViewModel() {
             }
         }
     }
-
-
 }

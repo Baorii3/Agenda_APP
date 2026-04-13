@@ -58,7 +58,7 @@ class PerfilFragment : Fragment() {
                 tvUserName.text = user.nom
                 tvUserEmail.text = user.email
                 Glide.with(this)
-                    .load(user.fotoPerfil)
+                    .load(user.picture)
                     .error(R.drawable.ic_launcher_background)
                     .into(image)
             } else {
