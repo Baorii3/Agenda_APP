@@ -44,7 +44,7 @@ class Api {
 
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("https://18.209.69.234/api/")
+                    .baseUrl("https://54.234.84.164/api/")
                     .client(unsafeOkHttpClient)
                     .build()
             }

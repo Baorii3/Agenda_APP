@@ -19,7 +19,17 @@ data class SalaRequestDto(
     val descripcio: String,
 )
 
-
+data class ActivitatRequestDto(
+    @SerializedName("id_sala")
+    val idSala: Long,
+    @SerializedName("id_usuari")
+    val idUsuari: Long,
+    val titol: String,
+    val descripcio: String,
+    val data: String,
+    val horaInici: String,
+    val horaFi: String
+)
 
 data class ActivitatResponseDto(
 
