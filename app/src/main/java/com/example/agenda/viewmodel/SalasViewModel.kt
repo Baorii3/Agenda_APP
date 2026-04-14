@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.agenda.api.Api
 import com.example.agenda.api.SalaResponseDto
 import androidx.lifecycle.viewModelScope
+import com.example.agenda.api.ActivitatRequestDto
 import com.example.agenda.api.ActivitatResponseDto
 import com.example.agenda.api.SalaRequestDto
 import kotlinx.coroutines.launch
@@ -71,6 +72,26 @@ class SalaViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 Log.e("API", "Error de conexión al crear sala", e)
+            }
+        }
+    }
+
+    fun crearActivitat(actRequest: ActivitatRequestDto) {
+        viewModelScope.launch {
+            try {
+                val response = Api.getActivitatService().crearActivitat(actRequest)
+                if (response.isSuccessful) {
+                    val nuevaActivitat = response.body()
+                    if (nuevaActivitat != null) {
+                        val activitatsActuales = _activitats.value ?: mutableListOf()
+                        activitatsActuales.add(nuevaActivitat)
+                        _activitats.postValue(activitatsActuales)
+                    }
+                } else {
+                    Log.e("APICREATE", "Error HTTP al crear activitat: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("APICREATE", "Error de conexión al crear activitat", e)
             }
         }
     }

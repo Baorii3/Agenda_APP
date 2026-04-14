@@ -6,10 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.agenda.api.ActivitatRequestDto
+import com.example.agenda.dialogs.CreateActivitatDialog
+import com.example.agenda.dialogs.CreateSalaDialog
 import com.example.agenda.recyclers.ActivitatAdapter
 
 class SalaFragment : Fragment() {
@@ -51,6 +55,33 @@ class SalaFragment : Fragment() {
         viewModel.activitats.observe(viewLifecycleOwner) { activitats ->
             adapter.updateList(activitats)
         }
+
+        val btnAdd = view.findViewById<ImageView>(R.id.addactivitatButton)
+        btnAdd.setOnClickListener {
+            if (parentFragmentManager.findFragmentByTag("CreateActivitatDialog") == null) {
+                CreateActivitatDialog().show(parentFragmentManager, "CreateActivitatDialog")
+            }
+        }
+
+        parentFragmentManager.setFragmentResultListener("createActivitatRequest", this) { _, bundle ->
+            val titol = bundle.getString("titol")
+            val descripcio = bundle.getString("descripcio")
+            val data = bundle.getString("data")
+            val horaInici = bundle.getString("horaInici")
+            val horaFi = bundle.getString("horaFi")
+            val professorId = bundle.getLong("usuariId")
+            val actRequest = ActivitatRequestDto(
+                idSala = salaId,
+                idUsuari = professorId,
+                titol = titol ?: "",
+                descripcio = descripcio ?: "",
+                data = data ?: "",
+                horaInici = horaInici ?: "",
+                horaFi = horaFi ?: ""
+            )
+            viewModel.crearActivitat(actRequest)
+        }
+
         return view
 
 

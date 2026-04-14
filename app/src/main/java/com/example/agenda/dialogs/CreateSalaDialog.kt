@@ -7,10 +7,11 @@ import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.lifecycleScope
 import com.example.agenda.R
-import com.example.agenda.api.PisoSala
+import com.example.agenda.api.Api
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlinx.coroutines.launch
 
 class CreateSalaDialog : DialogFragment() {
 
@@ -20,11 +21,21 @@ class CreateSalaDialog : DialogFragment() {
         val etNom = view.findViewById<EditText>(R.id.etNom)
         val spinnerUbicacio = view.findViewById<Spinner>(R.id.spinnerUbicacio)
         val etDescripcio = view.findViewById<EditText>(R.id.etDescripcio)
-
-        val opciones = PisoSala.values().map { it.name }.toTypedArray()
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, opciones)
+        val opcionesProvisionales = mutableListOf("Cargando...")
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, opcionesProvisionales)
         spinnerUbicacio.adapter = adapter
-
+        lifecycleScope.launch {
+            try {
+                val pisosDesdeApi = Api.getDiccionariService().getPisos()
+                opcionesProvisionales.clear()
+                opcionesProvisionales.addAll(pisosDesdeApi)
+                adapter.notifyDataSetChanged()
+            } catch (e: Exception) {
+                Log.e("CreateSalaDialog", "Error cargando pisos: ${e.message}")
+                opcionesProvisionales.clear()
+                adapter.notifyDataSetChanged()
+            }
+        }
         return MaterialAlertDialogBuilder(requireContext())
             .setView(view)
             .setPositiveButton("Crear") { _, _ ->

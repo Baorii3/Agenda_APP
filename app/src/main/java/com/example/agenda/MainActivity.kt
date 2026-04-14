@@ -61,6 +61,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_logout -> {
                     authManager.logOut{ viewModelUsuari.setUser(null) }
                 }
+                R.id.nav_reservations -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, ReservasFragment())
+                        .commit()
+                }
                 R.id.nav_login -> {
                     authManager.loginWithGoogle(this){
                         checkUserSession()
