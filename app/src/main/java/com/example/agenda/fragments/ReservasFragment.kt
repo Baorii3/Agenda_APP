@@ -1,4 +1,4 @@
-package com.example.agenda
+package com.example.agenda.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.agenda.R
 import com.example.agenda.recyclers.ReservaAdapter
 import com.example.agenda.viewmodel.UserViewModel
 

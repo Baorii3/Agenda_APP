@@ -1,4 +1,4 @@
-package com.example.agenda
+package com.example.agenda.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +13,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.amplifyframework.core.Amplify
 import com.bumptech.glide.Glide
+import com.example.agenda.R
 import com.example.agenda.viewmodel.UserViewModel
 class PerfilFragment : Fragment() {
 

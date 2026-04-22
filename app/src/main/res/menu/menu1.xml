@@ -7,11 +7,14 @@
         android:id="@+id/nav_reservations"
         android:title="Mis Reservas" />
     <item
-        android:id="@+id/nav_profile"
-        android:title="Perfil" />
+        android:id="@+id/nav_devices"
+        android:title="Dispositivos" />
     <item
         android:id="@+id/nav_settings"
         android:title="Configuración" />
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Perfil" />
     <item
         android:id="@+id/nav_login"
         android:title="Iniciar Sesión" />

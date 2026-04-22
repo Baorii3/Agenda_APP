@@ -2,6 +2,7 @@ package com.example.agenda.api
 
 import android.R
 import com.google.gson.annotations.SerializedName
+import java.time.LocalDateTime
 
 data class SalaResponseDto(
     @SerializedName("id_sala")
@@ -58,4 +59,16 @@ data class UsuariResponseDto(
     val rol: String,
     val permisos: List<String>,
     val picture: String
+)
+
+data class DispositiuResponseDto(
+    @SerializedName("id_dispositiu")
+    val id: Long,
+    val nom: String,
+    val mac: String,
+    val ip: String,
+    val tipus: String,
+    val actiu: Boolean,
+    val dataCreacio: String,
+    val heartbeat: String?
 )
