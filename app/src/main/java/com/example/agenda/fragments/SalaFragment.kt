@@ -1,4 +1,4 @@
-package com.example.agenda
+package com.example.agenda.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -11,9 +11,10 @@ import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.agenda.R
+import com.example.agenda.viewmodel.SalaViewModel
 import com.example.agenda.api.ActivitatRequestDto
 import com.example.agenda.dialogs.CreateActivitatDialog
-import com.example.agenda.dialogs.CreateSalaDialog
 import com.example.agenda.recyclers.ActivitatAdapter
 
 class SalaFragment : Fragment() {

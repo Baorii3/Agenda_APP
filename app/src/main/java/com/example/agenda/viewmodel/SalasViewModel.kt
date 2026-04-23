@@ -1,4 +1,4 @@
-package com.example.agenda
+package com.example.agenda.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

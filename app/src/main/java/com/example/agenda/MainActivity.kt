@@ -8,6 +8,10 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import com.amplifyframework.core.Amplify
 import com.example.agenda.databinding.ActivityMainBinding
+import com.example.agenda.fragments.DispositiuFragment
+import com.example.agenda.fragments.HomeFragment
+import com.example.agenda.fragments.PerfilFragment
+import com.example.agenda.fragments.ReservasFragment
 import com.example.agenda.viewmodel.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -55,6 +59,11 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_reservations -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment_container, ReservasFragment())
+                        .commit()
+                }
+                R.id.nav_devices -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, DispositiuFragment())
                         .commit()
                 }
                 R.id.nav_login -> {

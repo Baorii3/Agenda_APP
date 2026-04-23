@@ -35,6 +35,11 @@ class Api {
             return getRetrofit().create(DiccionariApiService::class.java)
         }
 
+        @Synchronized
+        fun getDispositiuService(): DispositiuService {
+            return getRetrofit().create(DispositiuService::class.java)
+        }
+
         private fun getRetrofit(): Retrofit {
             if (mRutinaApi == null) {
                 // Es para las fechas, el formato que nos da el backend es "yyyy-MM-dd'T'HH:mm:ss"
@@ -44,7 +49,7 @@ class Api {
 
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("https://98.81.195.0/api/")
+                    .baseUrl("http://172.21.64.1:8085/")
                     .client(unsafeOkHttpClient)
                     .build()
             }
