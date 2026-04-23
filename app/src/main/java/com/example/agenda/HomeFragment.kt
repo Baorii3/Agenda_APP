@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.agenda.api.SalaRequestDto
 import com.example.agenda.dialogs.CreateSalaDialog
 import com.example.agenda.recyclers.SalaAdapter
+import com.example.agenda.utils.applyPermissions
+import com.example.agenda.viewmodel.Permission
 import com.example.agenda.viewmodel.UserViewModel
 
 class HomeFragment : Fragment() {
@@ -28,6 +30,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+
         viewModel.cargarSalasApi()
         adapter = SalaAdapter(
             salas = emptyList(),
@@ -52,6 +55,13 @@ class HomeFragment : Fragment() {
             adapter.updateList(salas)
         }
 
+        viewModelUsuari.permissions.observe(viewLifecycleOwner) {
+            view.applyPermissions { permission ->
+                Log.d("HomeFragment", "Checking permission: $permission")
+                viewModelUsuari.userCan(Permission.valueOf(permission))
+            }
+        }
+
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
         btnAdd.setOnClickListener {
             if (parentFragmentManager.findFragmentByTag("CreateSalaDialog") == null) {
@@ -69,16 +79,6 @@ class HomeFragment : Fragment() {
                 descripcio = descripcio ?: "",
             )
             viewModel.addSala(sala)
-        }
-
-        viewModelUsuari.user.observe(viewLifecycleOwner) { user ->
-            if (user != null) {
-                Log.d("HomeFragment", "Usuario logueado, mostrando botón de añadir sala")
-                btnAdd.visibility = View.VISIBLE
-            } else {
-                Log.d("HomeFragment", "Usuario NNOOOO logueado, mostrando botón de añadir sala")
-                btnAdd.visibility = View.GONE
-            }
         }
         return view
     }

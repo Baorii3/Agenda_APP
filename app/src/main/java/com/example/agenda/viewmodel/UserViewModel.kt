@@ -17,13 +17,28 @@ class UserViewModel : ViewModel() {
     private val _listasPropias = MutableLiveData<List<ActivitatResponseDto>>(emptyList())
     val listasPropias: LiveData<List<ActivitatResponseDto>> = _listasPropias
 
+    private val _permissions = MutableLiveData<Set<Permission>>()
+    val permissions: LiveData<Set<Permission>> = _permissions
 
-    init {
-        _user.postValue(null)
+    fun setUserPermissions(perms: List<String>) {
+        _permissions.postValue(perms.map { Permission.valueOf(it) }.toSet())
+    }
+    fun clearUserPermissions() {
+        _permissions.postValue(emptySet())
+    }
+
+    fun userCan(permission: Permission): Boolean {
+        Log.d("UserViewModel", "Checking permission: $permission")
+        return _permissions.value?.contains(permission) ?: false
     }
 
     fun setUser(user: UsuariResponseDto?) {
         _user.postValue(user)
+        if (user != null) {
+            setUserPermissions(user.permisos)
+        } else {
+            clearUserPermissions()
+        }
         Log.d("UserViewModel", "User set: $user")
     }
 

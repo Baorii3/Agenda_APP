@@ -1,4 +1,10 @@
 package com.example.agenda.viewmodel
 
-class PermissionEnum {
+enum class Permission {
+    SALA_CREATE,
+    SALA_DELETE,
+    SALA_UPDATE,
+    USUARI_CREATE,
+    USUARI_DELETE,
+    USUARI_UPDATE
 }

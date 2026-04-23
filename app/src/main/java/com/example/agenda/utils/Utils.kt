@@ -15,5 +15,8 @@ fun View.applyPermissions(userCan: (String) -> Boolean) {
 
     if (permission != null && !userCan(permission)) {
         visibility = View.GONE
+    } else {
+        visibility = View.VISIBLE
+
     }
 }

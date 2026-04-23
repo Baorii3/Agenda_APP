@@ -48,6 +48,7 @@
         app:layout_constraintBottom_toTopOf="@+id/salasRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/add_sala"
+        android:tag="SALA_CREATE"
         />
 
     <androidx.recyclerview.widget.RecyclerView

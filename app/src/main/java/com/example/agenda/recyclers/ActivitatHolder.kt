@@ -14,7 +14,7 @@ class ActivitatHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: ActivitatResponseDto) {
         name.text = item.titol
         description.text = item.descripcio
-
+        time.text = "${item.horaInici.substring(0,6)} - ${item.horaFi.substring(0,5)}"
         //time.text = item.time
 
         //itemView.setOnClickListener {
