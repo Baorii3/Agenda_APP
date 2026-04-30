@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,24 @@ class HomeFragment : Fragment() {
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit()
+            },
+            onItemLongClick = { item, view ->
+                val popup = PopupMenu(context, view)
+                popup.menuInflater.inflate(R.menu.menu_long_click, popup.menu)
+                popup.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.pop_editar -> {
+                            //
+                            true
+                        }
+                        R.id.pop_eliminar -> {
+                            viewModel.deleteSalas(item.id)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                popup.show()
             }
         )
         rvSalas = view.findViewById<RecyclerView>(R.id.salasRecyclerView)

@@ -1,5 +1,7 @@
 package com.example.agenda.api
 
+import android.content.Context
+import com.example.agenda.AuthInterceptor
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -12,7 +14,6 @@ import javax.net.ssl.X509TrustManager
 class Api {
     companion object {
 
-        // De momento no usamos ningun servicio, asi podemos elegir el que queramos
         private var mRutinaApi: Retrofit? = null
 
         @Synchronized
@@ -49,7 +50,7 @@ class Api {
 
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("http://172.21.64.1:8085/")
+                    .baseUrl("http://192.168.17.225:8085/")
                     .client(unsafeOkHttpClient)
                     .build()
             }
@@ -83,6 +84,7 @@ class Api {
                 val sslSocketFactory = sslContext.socketFactory
 
                 return OkHttpClient.Builder()
+                    .addInterceptor (AuthInterceptor())
                     .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
                     .hostnameVerifier { _, _ -> true } // Accepta qualsevol hostname
                     .build()

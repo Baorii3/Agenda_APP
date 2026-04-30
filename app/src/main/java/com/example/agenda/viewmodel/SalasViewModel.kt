@@ -95,4 +95,19 @@ class SalaViewModel : ViewModel() {
             }
         }
     }
+
+    fun deleteSalas(id: Long) {
+        viewModelScope.launch {
+            val response = Api.getSalaService().eliminarSala(id)
+            Log.d("APIDELETE", "Response: $response")
+            if (response.isSuccessful) {
+                Log.d("APIDELETE", "Sala eliminada con éxito")
+                val salasActuales = _salas.value ?: mutableListOf()
+                salasActuales.removeIf { it.id == id.toLong() }
+                _salas.postValue(salasActuales)
+            } else {
+                Log.e("API", "Error HTTP al eliminar sala: ${response.code()}")
+            }
+        }
+    }
 }
