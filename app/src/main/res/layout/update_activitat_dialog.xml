@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1976D2"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_create_activity_title"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:background="#1976D2"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:text="@string/dialog_create_activity_subtitle"
-            android:textColor="#B3FFFFFF"
-            android:textSize="14sp" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dialog_update_activity_title"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/dialog_update_subtitle"
+                android:textColor="#B3FFFFFF"
+                android:textSize="14sp" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -42,26 +42,12 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_profesor_responsable"
-                android:textColor="#333333"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/spinnerUsuari"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="16dp"
-                android:background="#F0F0F0" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/label_activity_title"
+                android:text="@string/label_title"
                 android:textColor="#333333"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etTitol"
+                android:id="@+id/etEditTitol"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
@@ -76,13 +62,12 @@
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etData"
+                android:id="@+id/etEditData"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
                 android:focusable="false"
-                android:hint="@string/hint_select_date"
-                android:drawableEnd="@android:drawable/ic_menu_my_calendar" />
+                android:hint="@string/hint_select_date" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -93,8 +78,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical"
-                    android:layout_marginEnd="8dp">
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,7 +87,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/etHoraInici"
+                        android:id="@+id/etEditHoraInici"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:focusable="false"
@@ -114,7 +98,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_marginStart="8dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -123,7 +108,7 @@
                         android:textStyle="bold" />
 
                     <EditText
-                        android:id="@+id/etHoraFi"
+                        android:id="@+id/etEditHoraFi"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:focusable="false"
@@ -135,19 +120,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:text="@string/label_asignado_a"
+                android:textColor="#333333"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerEditUsuari"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginBottom="16dp"
+                android:background="#F5F5F5" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="@string/label_description"
                 android:textColor="#333333"
                 android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/etDescripcio"
+                android:id="@+id/etEditDescripcio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
                 android:gravity="top"
-                android:hint="@string/hint_session_details"
+                android:hint="@string/hint_new_description"
                 android:inputType="textMultiLine"
                 android:minLines="3" />
 
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

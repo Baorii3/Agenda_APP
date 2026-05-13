@@ -18,7 +18,7 @@
             android:layout_height="?attr/actionBarSize"
             android:background="#1976D2"
             android:padding="10dp"
-            app:title="AGENDA"
+            app:title="@string/app_name"
             app:titleTextColor="@color/white"
             app:layout_constraintTop_toTopOf="parent" />
 

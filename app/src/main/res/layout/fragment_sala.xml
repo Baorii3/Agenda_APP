@@ -21,7 +21,7 @@
             android:id="@+id/tvSalaTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sala name"
+            android:text="@string/placeholder_room_name"
             android:textColor="@color/white"
             android:textSize="26sp"
             android:textStyle="bold" />
@@ -31,10 +31,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Descripción"
+            android:text="@string/label_description"
             android:textColor="#CCFFFFFF"
             android:textSize="15sp" />
     </LinearLayout>
+
     <ImageView
         android:id="@+id/addactivitatButton"
         android:layout_width="wrap_content"
@@ -44,8 +45,7 @@
         app:layout_constraintTop_toBottomOf="@+id/headerContainer"
         app:layout_constraintBottom_toTopOf="@+id/labelActividades"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/add_sala"
-        />
+        android:src="@drawable/add_sala" />
 
     <TextView
         android:id="@+id/labelActividades"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="10dp"
-        android:text="PRÓXIMAS ACTIVIDADES"
+        android:text="@string/upcoming_activities"
         android:textColor="#757575"
         android:textSize="12sp"
         android:textStyle="bold"

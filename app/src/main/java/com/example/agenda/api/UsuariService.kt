@@ -11,7 +11,12 @@ interface UsuariService {
         @Header("Authorization") authHeader: String
     ): Response<UsuariResponseDto>
 
-    @GET("usuaris/usuaris/profes")
-    suspend fun getProfesores(
-    ): Response<List<UsuariResponseDto>>
+    @GET("usuaris")
+    suspend fun getUsuaris(): Response<List<UsuariResponseDto>>
+
+    @GET("usuaris/profes")
+    suspend fun getProfesores(): Response<List<UsuariResponseDto>>
+
+    @GET("roles")
+    suspend fun getRoles(): Response<List<String>>
 }

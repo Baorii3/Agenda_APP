@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
-        android:text="Dispositivos"
+        android:text="@string/devices_title"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -29,7 +29,7 @@
         android:id="@+id/tvDispositivosSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gestión de hardware y estado de red"
+        android:text="@string/devices_subtitle"
         android:textColor="#B3FFFFFF"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/tvDispositivosTitle"
@@ -70,7 +70,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="No hay dispositivos disponibles"
+            android:text="@string/devices_empty"
             android:textColor="#90A4AE"
             android:textSize="16sp" />
     </LinearLayout>

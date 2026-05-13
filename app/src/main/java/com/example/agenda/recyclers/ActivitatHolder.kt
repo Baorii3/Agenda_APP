@@ -5,7 +5,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.agenda.api.ActivitatResponseDto
 
-class ActivitatHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class ActivitatHolder(itemView: View, private val onItemLongClick: (ActivitatResponseDto, View) -> Unit) : RecyclerView.ViewHolder(itemView) {
     private val name = itemView.findViewById<TextView>(com.example.agenda.R.id.activitatName)
     private val description = itemView.findViewById<TextView>(com.example.agenda.R.id.activitatDescription)
 
@@ -20,5 +20,9 @@ class ActivitatHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         //itemView.setOnClickListener {
          //   onItemClick(item)
        // }
+        itemView.setOnLongClickListener {
+            onItemLongClick(item, itemView)
+            true
+        }
     }
 }

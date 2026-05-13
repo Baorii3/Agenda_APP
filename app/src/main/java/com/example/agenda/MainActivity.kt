@@ -66,6 +66,11 @@ class MainActivity : AppCompatActivity() {
                         .replace(R.id.fragment_container, DispositiuFragment())
                         .commit()
                 }
+                R.id.nav_usuarios -> {
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, com.example.agenda.fragments.UsuariFragment())
+                        .commit()
+                }
                 R.id.nav_login -> {
                     authManager.loginWithGoogle(this){
                         checkUserSession()

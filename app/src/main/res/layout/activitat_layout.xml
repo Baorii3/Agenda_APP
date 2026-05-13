@@ -40,7 +40,7 @@
                 android:id="@+id/activitatName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Activitat Name"
+                android:text="@string/placeholder_activity_name"
                 android:textColor="#212121"
                 android:textSize="17sp"
                 android:textStyle="bold" />
@@ -50,7 +50,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Descripción "
+                android:text="@string/placeholder_activity_description"
                 android:textColor="#616161"
                 android:textSize="14sp" />
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="horario"
+                android:text="@string/placeholder_activity_time"
                 android:textSize="12sp"
                 android:textColor="#1976D2"
                 android:textStyle="italic" />

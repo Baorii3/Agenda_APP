@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -48,7 +49,35 @@ class SalaFragment : Fragment() {
         viewModel.cargarActivitatsForSala(salaId)
         adapter = ActivitatAdapter(
             activitats = emptyList(),
-            onItemClick = {}
+            onItemClick = {},
+            onItemLongClick = { item, view ->
+                val popup = PopupMenu(context, view)
+                popup.menuInflater.inflate(R.menu.menu_long_click, popup.menu)
+                popup.setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.pop_editar -> {
+                            // Abrir el diálogo de edición con los datos actuales
+                            val editPopup = com.example.agenda.dialogs.UpdateActivitatDialog.newInstance(
+                                item.idActivitat,
+                                item.titol,
+                                item.descripcio,
+                                item.data,
+                                item.horaInici,
+                                item.horaFi,
+                                item.idUsuari
+                            )
+                            editPopup.show(parentFragmentManager, "UpdateActivitatDialog")
+                            true
+                        }
+                        R.id.pop_eliminar -> {
+                            viewModel.deleteActivitats(item.idActivitat)
+                            true
+                        }
+                        else -> false
+                    }
+                }
+                popup.show()
+            }
         )
         rvActivitat = view.findViewById(R.id.activitatsRecyclerView)
         rvActivitat.layoutManager = LinearLayoutManager(context)
@@ -81,6 +110,32 @@ class SalaFragment : Fragment() {
                 horaFi = horaFi ?: ""
             )
             viewModel.crearActivitat(actRequest)
+        }
+
+        // Listener para el resultado de actualización de actividad
+        parentFragmentManager.setFragmentResultListener("updateActivitatRequest", this) { _, bundle ->
+            val idActivitat = bundle.getLong("idActivitat")
+            val titol = bundle.getString("titol")
+            val descripcio = bundle.getString("descripcio")
+            val data = bundle.getString("data")
+            val horaInici = bundle.getString("horaInici")
+            val horaFi = bundle.getString("horaFi")
+            val usuariId = bundle.getLong("usuariId")
+
+            if (idActivitat != -1L) {
+                val actRequest = ActivitatRequestDto(
+                    idSala = salaId,
+                    idUsuari = usuariId,
+                    titol = titol ?: "",
+                    descripcio = descripcio ?: "",
+                    data = data ?: "",
+                    horaInici = horaInici ?: "",
+                    horaFi = horaFi ?: ""
+                )
+                viewModel.updateActivitat(idActivitat, actRequest)
+            } else {
+                Log.e("SalaFragment", "updateActivitatRequest recibido con id inválido")
+            }
         }
 
         return view

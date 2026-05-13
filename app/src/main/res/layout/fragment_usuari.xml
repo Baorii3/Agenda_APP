@@ -8,19 +8,19 @@
     android:background="#F8F9FA">
 
     <View
-        android:id="@+id/headerReserva"
+        android:id="@+id/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:background="#1976D2"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/titleReserva"
+        android:id="@+id/tvUsuariTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
-        android:text="@string/menu_reservations"
+        android:text="@string/usuarios_title"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -28,17 +28,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/subtitleReserva"
+        android:id="@+id/tvUsuariSubtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reservas_subtitle"
+        android:text="@string/usuarios_subtitle"
         android:textColor="#B3FFFFFF"
         android:textSize="14sp"
-        app:layout_constraintStart_toStartOf="@+id/titleReserva"
-        app:layout_constraintTop_toBottomOf="@+id/titleReserva" />
+        app:layout_constraintStart_toStartOf="@id/tvUsuariTitle"
+        app:layout_constraintTop_toBottomOf="@id/tvUsuariTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMisReservas"
+        android:id="@+id/usuariRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
@@ -47,17 +47,30 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/headerReserva"
-        tools:listitem="@layout/reserva_layout" />
+        app:layout_constraintTop_toBottomOf="@id/headerBackground"
+        tools:listitem="@layout/usuari_item" />
 
     <ProgressBar
-        android:id="@+id/pbReservas"
+        android:id="@+id/pbUsuaris"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/headerBackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerReserva" />
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUsuarisEmpty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/usuarios_empty"
+        android:textColor="#90A4AE"
+        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/headerBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

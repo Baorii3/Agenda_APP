@@ -20,6 +20,8 @@ data class SalaRequestDto(
     val descripcio: String,
 )
 
+
+
 data class ActivitatRequestDto(
     @SerializedName("id_sala")
     val idSala: Long,
@@ -57,8 +59,12 @@ data class UsuariResponseDto(
     val nom: String,
     val email: String,
     val rol: String,
-    val permisos: List<String>,
+    val permisos: List<PermisoDto>,
     val picture: String
+)
+data class PermisoDto(
+    val recurso: String,
+    val valor: Long
 )
 
 data class DispositiuResponseDto(

@@ -2,6 +2,7 @@ package com.example.agenda.api
 
 import android.content.Context
 import com.example.agenda.AuthInterceptor
+import com.example.agenda.AuthManager
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -15,7 +16,7 @@ class Api {
     companion object {
 
         private var mRutinaApi: Retrofit? = null
-
+        private val authManager = AuthManager()
         @Synchronized
         fun getSalaService(): SalaService {
             return getRetrofit().create(SalaService::class.java)
@@ -41,19 +42,21 @@ class Api {
             return getRetrofit().create(DispositiuService::class.java)
         }
 
-        private fun getRetrofit(): Retrofit {
+        fun init(context: Context) {
             if (mRutinaApi == null) {
-                // Es para las fechas, el formato que nos da el backend es "yyyy-MM-dd'T'HH:mm:ss"
-                val gsondateformat = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
+                authManager.inicializarAmplify(context)
 
-                val unsafeOkHttpClient = getUnsafeOkHttpClient()
+                val gsondateformat = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
 
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("http://192.168.17.225:8085/")
-                    .client(unsafeOkHttpClient)
+                    .baseUrl("https://54.82.251.47/api/")
+                    .client(getUnsafeOkHttpClient())
                     .build()
             }
+        }
+
+        private fun getRetrofit(): Retrofit {
             return mRutinaApi!!
         }
 
@@ -84,7 +87,7 @@ class Api {
                 val sslSocketFactory = sslContext.socketFactory
 
                 return OkHttpClient.Builder()
-                    .addInterceptor (AuthInterceptor())
+                    .addInterceptor (AuthInterceptor(authManager))
                     .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
                     .hostnameVerifier { _, _ -> true } // Accepta qualsevol hostname
                     .build()

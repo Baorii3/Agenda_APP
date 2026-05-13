@@ -15,9 +15,8 @@ import com.example.agenda.R
 import com.example.agenda.viewmodel.SalaViewModel
 import com.example.agenda.api.SalaRequestDto
 import com.example.agenda.dialogs.CreateSalaDialog
+import com.example.agenda.dialogs.UpdateSalaDialog
 import com.example.agenda.recyclers.SalaAdapter
-import com.example.agenda.utils.applyPermissions
-import com.example.agenda.viewmodel.Permission
 import com.example.agenda.viewmodel.UserViewModel
 
 class HomeFragment : Fragment() {
@@ -55,7 +54,9 @@ class HomeFragment : Fragment() {
                 popup.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.pop_editar -> {
-                            //
+                            val editPopup = UpdateSalaDialog.newInstance(item.id,item.nom, item.ubicacio, item.descripcio)
+
+                            editPopup.show(parentFragmentManager, "UpdateSalaDialog")
                             true
                         }
                         R.id.pop_eliminar -> {
@@ -76,12 +77,7 @@ class HomeFragment : Fragment() {
             adapter.updateList(salas)
         }
 
-        viewModelUsuari.permissions.observe(viewLifecycleOwner) {
-            view.applyPermissions { permission ->
-                Log.d("HomeFragment", "Checking permission: $permission")
-                viewModelUsuari.userCan(Permission.valueOf(permission))
-            }
-        }
+
 
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
         btnAdd.setOnClickListener {
@@ -100,6 +96,28 @@ class HomeFragment : Fragment() {
                 descripcio = descripcio ?: "",
             )
             viewModel.addSala(sala)
+        }
+
+        parentFragmentManager.setFragmentResultListener("updateSalaRequest", this) { _, bundle ->
+            val id = bundle.getLong("id")
+            val nom = bundle.getString("nom")
+            if (nom == null) {
+                Log.e("UpdateSalaDialog", "No se recibió un nombre válido)")
+                return@setFragmentResultListener
+            }
+            val ubicacio = bundle.getString("ubicacio")
+            if (ubicacio == null) {
+                Log.e("UpdateSalaDialog", "No se recibió una ubicación válida")
+                return@setFragmentResultListener
+            }
+            val descripcio = bundle.getString("descripcio")
+            if (descripcio == null) {
+                Log.e("UpdateSalaDialog", "No se recibió una descripción válida")
+                return@setFragmentResultListener
+            }
+            val sala = SalaRequestDto(nom, ubicacio, descripcio)
+            viewModel.updateSala(id, sala)
+
         }
         return view
     }

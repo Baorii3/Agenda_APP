@@ -60,6 +60,7 @@ class SalaViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val response = Api.getSalaService().crearSala(sala)
+                Log.d("API", "Response: $response")
                 if (response.isSuccessful) {
                     val nuevaSala = response.body()
                     if (nuevaSala != null) {
@@ -103,10 +104,62 @@ class SalaViewModel : ViewModel() {
             if (response.isSuccessful) {
                 Log.d("APIDELETE", "Sala eliminada con éxito")
                 val salasActuales = _salas.value ?: mutableListOf()
-                salasActuales.removeIf { it.id == id.toLong() }
+                salasActuales.removeIf { it.id == id }
                 _salas.postValue(salasActuales)
             } else {
                 Log.e("API", "Error HTTP al eliminar sala: ${response.code()}")
+            }
+        }
+    }
+
+    fun deleteActivitats(id: Long) {
+        viewModelScope.launch {
+            val response = Api.getActivitatService().deleteByID(id)
+            if (response.isSuccessful) {
+                val activitats = _activitats.value ?: mutableListOf()
+                activitats.removeIf { it.idActivitat == id }
+                _activitats.postValue(activitats)
+            }else {
+                Log.e("API", "Error HTTP al eliminar activitdad: ${response.code()}")
+            }
+        }
+    }
+
+    fun updateSala(id: Long, sala: SalaRequestDto) {
+        viewModelScope.launch {
+            val response = Api.getSalaService().editarSala(id, sala)
+            if (response.isSuccessful) {
+                val index = _salas.value?.indexOfFirst { it.id == id }
+                if (index != null && index != -1) {
+                    val salasActuales = _salas.value ?: mutableListOf()
+                    salasActuales[index] = response.body() ?: salasActuales[index]
+                    _salas.postValue(salasActuales)
+                }
+            } else {
+                Log.e("API", "Error HTTP al editar sala: ${response.code()}")
+            }
+        }
+    }
+
+    fun updateActivitat(id: Long, activitat: ActivitatRequestDto) {
+        viewModelScope.launch {
+            try {
+                val response = Api.getActivitatService().editarActivitat(id, activitat)
+                if (response.isSuccessful) {
+                    val activitatActualitzada = response.body()
+                    if (activitatActualitzada != null) {
+                        val activitatsActuals = _activitats.value ?: mutableListOf()
+                        val index = activitatsActuals.indexOfFirst { it.idActivitat == id }
+                        if (index != -1) {
+                            activitatsActuals[index] = activitatActualitzada
+                            _activitats.postValue(activitatsActuals)
+                        }
+                    }
+                } else {
+                    Log.e("API", "Error HTTP al editar activitat: ${response.code()}")
+                }
+            } catch (e: Exception) {
+                Log.e("API", "Error de conexión al editar activitat", e)
             }
         }
     }

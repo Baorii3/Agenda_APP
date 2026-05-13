@@ -6,6 +6,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.Header
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 
@@ -23,4 +24,10 @@ interface SalaService {
     suspend fun eliminarSala(
         @Path("id") id: Long,
     ): Response<Void>
+
+    @PUT("salas/{id}")
+    suspend fun editarSala(
+        @Path("id") id: Long,
+        @Body sala: SalaRequestDto
+    ): Response<SalaResponseDto>
 }

@@ -1,7 +1,77 @@
 <resources>
     <string name="app_name">AGENDA</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Cerrar</string>
+
+    <string name="usuarios_title">Usuarios</string>
+    <string name="usuarios_subtitle">Gestión y consulta de usuarios registrados</string>
+    <string name="usuarios_empty">No hay usuarios disponibles</string>
+    <string name="usuarios_error">No se pudieron cargar los usuarios</string>
+    <string name="menu_salas">Salas</string>
+    <string name="menu_reservations">Mis Reservas</string>
+    <string name="menu_devices">Dispositivos</string>
+    <string name="menu_settings">Configuración</string>
+    <string name="menu_profile">Perfil</string>
+    <string name="menu_login">Iniciar Sesión</string>
+    <string name="menu_logout">Cerrar Sesión</string>
+    <string name="menu_edit">Editar</string>
+    <string name="menu_delete">Eliminar</string>
+
+    <string name="home_title">Salas Disponibles</string>
+    <string name="home_subtitle">Reserva tu espacio de trabajo hoy</string>
+    <string name="reservas_subtitle">Actividades que has organizado</string>
+    <string name="profile_title">Mi Perfil</string>
+    <string name="upcoming_activities">PRÓXIMAS ACTIVIDADES</string>
+
+    <string name="devices_title">Dispositivos</string>
+    <string name="devices_subtitle">Gestión de hardware y estado de red</string>
+    <string name="devices_empty">No hay dispositivos disponibles</string>
+
+    <string name="dialog_create_sala_title">Crear Nueva Sala</string>
+    <string name="dialog_create_sala_subtitle">Añade los detalles básicos</string>
+    <string name="dialog_update_sala_title">Editar Sala</string>
+    <string name="dialog_update_activity_title">Editar Actividad</string>
+    <string name="dialog_update_subtitle">Modifica los campos necesarios</string>
+    <string name="dialog_create_activity_title">Asignar Actividad</string>
+    <string name="dialog_create_activity_subtitle">Panel de Administración</string>
+
+    <string name="label_profesor_responsable">Profesor / Responsable</string>
+    <string name="label_asignado_a">Asignado a</string>
+    <string name="label_activity_title">Título de la actividad</string>
+    <string name="label_title">Título</string>
+    <string name="label_date">Fecha</string>
+    <string name="label_start">Inicio</string>
+    <string name="label_end">Fin</string>
+    <string name="label_description">Descripción</string>
+    <string name="label_room_name">Nombre de la sala</string>
+    <string name="label_location_with_example">Ubicación (ej: PLANTA_1)</string>
+    <string name="label_location">Ubicación</string>
+
+    <string name="hint_activity_title_example">Ej: Clase de M06</string>
+    <string name="hint_select_date">Selecciona fecha</string>
+    <string name="hint_start_time">09:00</string>
+    <string name="hint_end_time">11:00</string>
+    <string name="hint_session_details">Detalles de la sesión...</string>
+    <string name="hint_room_name_example">Ej: Sala Fitness</string>
+    <string name="hint_room_details">Detalles sobre el espacio...</string>
+    <string name="hint_current_name">Nombre actual</string>
+    <string name="hint_new_description">Escribe la nueva descripción...</string>
+
+    <string name="placeholder_activity_name">Nombre de la actividad</string>
+    <string name="placeholder_activity_description">Descripción</string>
+    <string name="placeholder_activity_time">Horario</string>
+    <string name="placeholder_room_name">Nombre de la sala</string>
+    <string name="placeholder_room_description">Descripción de la sala</string>
+    <string name="placeholder_reservation_title">Reunión de Proyecto</string>
+    <string name="placeholder_reservation_date">2026–04–13</string>
+    <string name="placeholder_reservation_time">10:00 – 12:00</string>
+    <string name="placeholder_reservation_room">SALA 01</string>
+    <string name="placeholder_device_name">Proyector Epson EB-X05</string>
+    <string name="placeholder_device_category">Multimedia</string>
+    <string name="placeholder_device_serial">SN: 4429</string>
+    <string name="placeholder_device_status">EN LINEA</string>
+    <string name="placeholder_user_name">Nombre</string>
+    <string name="placeholder_user_email">email@ejemplo.com</string>
+    <string name="placeholder_user_role">Rol</string>
 </resources>

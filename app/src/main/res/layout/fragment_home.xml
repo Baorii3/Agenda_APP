@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="40dp"
-        android:text="Salas Disponibles"
+        android:text="@string/home_title"
         android:textColor="@color/white"
         android:textSize="28sp"
         android:textStyle="bold"
@@ -32,7 +32,7 @@
         android:id="@+id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reserva tu espacio de trabajo hoy"
+        android:text="@string/home_subtitle"
         android:textColor="#B3FFFFFF"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/title"
@@ -48,7 +48,6 @@
         app:layout_constraintBottom_toTopOf="@+id/salasRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/add_sala"
-        android:tag="SALA_CREATE"
         />
 
     <androidx.recyclerview.widget.RecyclerView

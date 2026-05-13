@@ -8,14 +8,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#1976D2"
+        android:background="#455A64"
         android:orientation="vertical"
         android:padding="20dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/dialog_create_sala_title"
+            android:text="@string/dialog_update_sala_title"
             android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/dialog_create_sala_subtitle"
+            android:text="@string/dialog_update_subtitle"
             android:textColor="#B3FFFFFF"
             android:textSize="14sp" />
     </LinearLayout>
@@ -43,26 +43,26 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etNom"
+            android:id="@+id/etEditNom"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
-            android:hint="@string/hint_room_name_example"
+            android:hint="@string/hint_current_name"
             android:inputType="textCapSentences" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/label_location_with_example"
+            android:text="@string/label_location"
             android:textColor="#333333"
             android:textStyle="bold" />
 
         <Spinner
-            android:id="@+id/spinnerUbicacio"
+            android:id="@+id/spinnerEditUbicacio"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
-            android:background="#E0E0E0" />
+            android:background="#F5F5F5" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -72,11 +72,12 @@
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/etDescripcio"
+            android:id="@+id/etEditDescripcio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
             android:gravity="top"
-            android:hint="@string/hint_room_details"
+            android:hint="@string/hint_new_description"
             android:inputType="textMultiLine"
             android:minLines="3" />
 
