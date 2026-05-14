@@ -50,8 +50,7 @@ class Api {
 
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("https://54.82.251.47/api/")
-                    .client(getUnsafeOkHttpClient())
+                    .baseUrl("https://api.agenda.ianordonez.cat/")
                     .build()
             }
         }
@@ -60,41 +59,6 @@ class Api {
             return mRutinaApi!!
         }
 
-        private fun getUnsafeOkHttpClient(): OkHttpClient {
-            try {
-                // Crea un trust manager que NO valida certificats
-                val trustAllCerts = arrayOf<TrustManager>(
-                    object : X509TrustManager {
-                        override fun checkClientTrusted(
-                            chain: Array<X509Certificate>,
-                            authType: String
-                        ) {
-                        }
 
-                        override fun checkServerTrusted(
-                            chain: Array<X509Certificate>,
-                            authType: String
-                        ) {
-                        }
-
-                        override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
-                    }
-                )
-
-                // Instal·la el trust manager
-                val sslContext = SSLContext.getInstance("SSL")
-                sslContext.init(null, trustAllCerts, java.security.SecureRandom())
-                val sslSocketFactory = sslContext.socketFactory
-
-                return OkHttpClient.Builder()
-                    .addInterceptor (AuthInterceptor(authManager))
-                    .sslSocketFactory(sslSocketFactory, trustAllCerts[0] as X509TrustManager)
-                    .hostnameVerifier { _, _ -> true } // Accepta qualsevol hostname
-                    .build()
-
-            } catch (e: Exception) {
-                throw RuntimeException(e)
-            }
-        }
     }
 }

@@ -2,6 +2,7 @@ package com.example.agenda
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -62,14 +63,18 @@ class MainActivity : AppCompatActivity() {
                         .commit()
                 }
                 R.id.nav_devices -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, DispositiuFragment())
-                        .commit()
+                    if (viewModelUsuari.canAccessDevices()) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, DispositiuFragment())
+                            .commit()
+                    }
                 }
                 R.id.nav_usuarios -> {
-                    supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragment_container, com.example.agenda.fragments.UsuariFragment())
-                        .commit()
+                    if (viewModelUsuari.canAccessUsers()) {
+                        supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, com.example.agenda.fragments.UsuariFragment())
+                            .commit()
+                    }
                 }
                 R.id.nav_login -> {
                     authManager.loginWithGoogle(this){
@@ -87,9 +92,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModelUsuari.user.observe(this) { user ->
-            binding.navView.menu.findItem(R.id.nav_logout).isVisible = (user != null)
-            binding.navView.menu.findItem(R.id.nav_login).isVisible = (user == null)
+            val isLoggedIn = user != null
+            val menu = binding.navView.menu
 
+            menu.findItem(R.id.nav_logout).isVisible = isLoggedIn
+            menu.findItem(R.id.nav_login).isVisible = !isLoggedIn
+            menu.findItem(R.id.nav_devices).isVisible = viewModelUsuari.canAccessDevices()
+            menu.findItem(R.id.nav_usuarios).isVisible = viewModelUsuari.canAccessUsers()
         }
     }
 

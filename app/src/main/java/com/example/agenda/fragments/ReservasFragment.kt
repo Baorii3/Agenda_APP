@@ -39,8 +39,8 @@ class ReservasFragment : Fragment() {
         rvReservas.layoutManager = LinearLayoutManager(context)
         rvReservas.adapter = adapter
 
-        viewModelUser.fetchListasPropias()
-        viewModelUser.listasPropias.observe(viewLifecycleOwner) { reservas ->
+        viewModelUser.fetchListasPropies()
+        viewModelUser.listasPropies.observe(viewLifecycleOwner) { reservas ->
             adapter.updateList(reservas)
         }
         return view

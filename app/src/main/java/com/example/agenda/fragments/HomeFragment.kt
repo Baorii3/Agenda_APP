@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -80,7 +81,14 @@ class HomeFragment : Fragment() {
 
 
         val btnAdd = view.findViewById<ImageView>(R.id.addSalaButton)
+        viewModelUsuari.canCreateSala.observe(viewLifecycleOwner) { canCreateSala ->
+            btnAdd.isVisible = canCreateSala
+        }
+
         btnAdd.setOnClickListener {
+            if (!viewModelUsuari.canCreateSalas()) {
+                return@setOnClickListener
+            }
             if (parentFragmentManager.findFragmentByTag("CreateSalaDialog") == null) {
                 CreateSalaDialog().show(parentFragmentManager, "CreateSalaDialog")
             }
