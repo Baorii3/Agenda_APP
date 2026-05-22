@@ -15,7 +15,7 @@ class AuthManager {
             Amplify.addPlugin(AWSCognitoAuthPlugin())
             Amplify.configure(context)
             Log.i("AuthManager", "Amplify configurado correctamente")
-        } catch (error: AmplifyException) {
+        } catch (_: AmplifyException) {
             Log.w("AuthManager", "Amplify ya estaba configurado, continuamos.")        }
     }
 

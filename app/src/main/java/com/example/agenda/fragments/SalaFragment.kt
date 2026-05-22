@@ -6,17 +6,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.agenda.R
 import com.example.agenda.viewmodel.SalaViewModel
+import com.example.agenda.viewmodel.UserViewModel
 import com.example.agenda.api.ActivitatRequestDto
 import com.example.agenda.dialogs.CreateActivitatDialog
 import com.example.agenda.recyclers.ActivitatAdapter
+import java.util.*
+import android.app.DatePickerDialog
 
 class SalaFragment : Fragment() {
 
@@ -28,6 +35,7 @@ class SalaFragment : Fragment() {
     private lateinit var adapter: ActivitatAdapter
 
     private val viewModel: SalaViewModel by activityViewModels<SalaViewModel>()
+    private val userViewModel: UserViewModel by activityViewModels<UserViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +54,9 @@ class SalaFragment : Fragment() {
         val tvSalaDescription = view.findViewById<TextView>(R.id.tvSalaDescription)
         tvSalaName.text = sala?.nom
         tvSalaDescription.text = sala?.descripcio
-        viewModel.cargarActivitatsForSala(salaId)
+        viewModel.cargarActivitatsForSala(salaId) { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
         adapter = ActivitatAdapter(
             activitats = emptyList(),
             onItemClick = {},
@@ -56,7 +66,6 @@ class SalaFragment : Fragment() {
                 popup.setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.pop_editar -> {
-                            // Abrir el diálogo de edición con los datos actuales
                             val editPopup = com.example.agenda.dialogs.UpdateActivitatDialog.newInstance(
                                 item.idActivitat,
                                 item.titol,
@@ -70,7 +79,9 @@ class SalaFragment : Fragment() {
                             true
                         }
                         R.id.pop_eliminar -> {
-                            viewModel.deleteActivitats(item.idActivitat)
+                            viewModel.deleteActivitats(item.idActivitat) { message ->
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                            }
                             true
                         }
                         else -> false
@@ -86,11 +97,49 @@ class SalaFragment : Fragment() {
             adapter.updateList(activitats)
         }
 
+        val etFechaFiltro = view.findViewById<EditText>(R.id.etFechaFiltroSala)
+        val btnBuscarFecha = view.findViewById<ImageButton>(R.id.btnBuscarFechaSala)
+
+        etFechaFiltro.setOnClickListener {
+            val c = Calendar.getInstance()
+            val dp = DatePickerDialog(requireContext(), { _, year, month, dayOfMonth ->
+                val mes = month + 1
+                val fecha = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, mes, dayOfMonth)
+                etFechaFiltro.setText(fecha)
+            }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH))
+            dp.show()
+        }
+
+        btnBuscarFecha.setOnClickListener {
+            val fecha = etFechaFiltro.text.toString()
+            if (fecha.isNotBlank()) {
+                viewModel.buscarActivitatsPorDia(fecha) { message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                // Si el campo está vacío, recargamos todas las actividades de la sala
+                viewModel.cargarActivitatsForSala(salaId) { message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        // Observador de resultados por dia (filtrar por salaId antes de mostrar)
+        viewModel.activitatsPorDia.observe(viewLifecycleOwner) { l ->
+            val filtradasPorSala = l.filter { it.idSala == salaId }
+            adapter.updateList(filtradasPorSala)
+        }
+
         val btnAdd = view.findViewById<ImageView>(R.id.addactivitatButton)
+        btnAdd.isVisible = userViewModel.canCreateActividades()
         btnAdd.setOnClickListener {
             if (parentFragmentManager.findFragmentByTag("CreateActivitatDialog") == null) {
                 CreateActivitatDialog().show(parentFragmentManager, "CreateActivitatDialog")
             }
+        }
+
+        userViewModel.user.observe(viewLifecycleOwner) { _ ->
+            btnAdd.isVisible = userViewModel.canCreateActividades()
         }
 
         parentFragmentManager.setFragmentResultListener("createActivitatRequest", this) { _, bundle ->
@@ -109,10 +158,11 @@ class SalaFragment : Fragment() {
                 horaInici = horaInici ?: "",
                 horaFi = horaFi ?: ""
             )
-            viewModel.crearActivitat(actRequest)
+            viewModel.crearActivitat(actRequest) { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
         }
 
-        // Listener para el resultado de actualización de actividad
         parentFragmentManager.setFragmentResultListener("updateActivitatRequest", this) { _, bundle ->
             val idActivitat = bundle.getLong("idActivitat")
             val titol = bundle.getString("titol")
@@ -132,7 +182,9 @@ class SalaFragment : Fragment() {
                     horaInici = horaInici ?: "",
                     horaFi = horaFi ?: ""
                 )
-                viewModel.updateActivitat(idActivitat, actRequest)
+                viewModel.updateActivitat(idActivitat, actRequest) { message ->
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Log.e("SalaFragment", "updateActivitatRequest recibido con id inválido")
             }

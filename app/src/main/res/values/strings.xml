@@ -74,4 +74,8 @@
     <string name="placeholder_user_name">Nombre</string>
     <string name="placeholder_user_email">email@ejemplo.com</string>
     <string name="placeholder_user_role">Rol</string>
+
+    <string name="buscar">Buscar</string>
+    <string name="hint_date_format">yyyy-MM-dd</string>
+    <string name="add_activitat_desc">Añadir actividad</string>
 </resources>

@@ -1,5 +1,4 @@
 package com.example.agenda.viewmodel
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.agenda.api.Api
@@ -8,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.agenda.api.ActivitatRequestDto
 import com.example.agenda.api.ActivitatResponseDto
 import com.example.agenda.api.SalaRequestDto
+import com.example.agenda.validators.ActivitatValidator
 import kotlinx.coroutines.launch
 
 class SalaViewModel : ViewModel() {
@@ -17,7 +17,10 @@ class SalaViewModel : ViewModel() {
     private val _activitats = MutableLiveData<MutableList<ActivitatResponseDto>>()
     val activitats: MutableLiveData<MutableList<ActivitatResponseDto>> = _activitats
 
-    fun cargarSalasApi() {
+    private val _activitatsPorDia = MutableLiveData<MutableList<ActivitatResponseDto>>()
+    val activitatsPorDia: MutableLiveData<MutableList<ActivitatResponseDto>> = _activitatsPorDia
+
+    fun cargarSalasApi(onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = Api.getSalaService().llistaSala()
@@ -25,10 +28,10 @@ class SalaViewModel : ViewModel() {
                     val items = response.body()
                     _salas.postValue(items?.toMutableList() ?: mutableListOf())
                 } else {
-                    Log.e("API", "Error HTTP: ${response.code()}")
+                    onMessage("Error HTTP al cargar salas: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("Api", "Error de connexió", e)
+            } catch (_: Exception) {
+                onMessage("Error de conexión al cargar salas")
             }
         }
     }
@@ -37,47 +40,75 @@ class SalaViewModel : ViewModel() {
         return _salas.value?.find { it.id == id }
     }
 
-    fun cargarActivitatsForSala(salaId: Long) {
+    fun cargarActivitatsForSala(salaId: Long, onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = Api.getActivitatService().llistaItems()
                 if (response.isSuccessful) {
-                    // deberia mejorar esto con una consulta a la API que filtre por salaId, pero bueno, de momento esto
                     val items = response.body()
                     val activitatsSala = items?.filter { it.idSala == salaId } ?: emptyList()
                     _activitats.postValue(activitatsSala.toMutableList())
-                    Log.d("SalaViewModel", "Activitats for salaId=$salaId: $activitatsSala")
                 } else {
-                    Log.e("API", "Error HTTP: ${response.code()}")
+                    onMessage("Error HTTP al cargar actividades: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("Api", "Error de connexió", e)
+            } catch (_: Exception) {
+                onMessage("Error de conexión al cargar actividades")
             }
         }
     }
 
-    fun addSala(sala: SalaRequestDto) {
+    fun buscarActivitatsPorDia(dateIso: String, onMessage: (String) -> Unit = {}) {
+        viewModelScope.launch {
+            try {
+                val response = Api.getActivitatService().llistaItems()
+                if (response.isSuccessful) {
+                    val items = response.body() ?: emptyList()
+                    val filtradas = items.filter { activitat ->
+                        val fecha = activitat.data
+                        if (fecha.length >= 10) {
+                            fecha.take(10) == dateIso
+                        } else {
+                            false
+                        }
+                    }
+                    _activitatsPorDia.postValue(filtradas.toMutableList())
+                } else {
+                    onMessage("Error HTTP al filtrar actividades: ${response.code()}")
+                }
+            } catch (_: Exception) {
+                onMessage("Error de conexión al filtrar actividades")
+            }
+        }
+    }
+
+    fun addSala(sala: SalaRequestDto, onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             try {
                 val response = Api.getSalaService().crearSala(sala)
-                Log.d("API", "Response: $response")
                 if (response.isSuccessful) {
                     val nuevaSala = response.body()
                     if (nuevaSala != null) {
                         val salasActuales = _salas.value ?: mutableListOf()
                         salasActuales.add(nuevaSala)
                         _salas.postValue(salasActuales)
+                        onMessage("Sala creada correctamente")
                     }
                 } else {
-                    Log.e("API", "Error HTTP al crear sala: ${response.code()}")
+                    onMessage("Error HTTP al crear sala: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("API", "Error de conexión al crear sala", e)
+            } catch (_: Exception) {
+                onMessage("Error de conexión al crear sala")
             }
         }
     }
 
-    fun crearActivitat(actRequest: ActivitatRequestDto) {
+    fun crearActivitat(actRequest: ActivitatRequestDto, onMessage: (String) -> Unit = {}) {
+        val errorValidacion = ActivitatValidator.validar(actRequest, _activitats.value ?: emptyList(), idPropio = null)
+        if (errorValidacion != null) {
+            onMessage(errorValidacion)
+            return
+        }
+
         viewModelScope.launch {
             try {
                 val response = Api.getActivitatService().crearActivitat(actRequest)
@@ -87,45 +118,46 @@ class SalaViewModel : ViewModel() {
                         val activitatsActuales = _activitats.value ?: mutableListOf()
                         activitatsActuales.add(nuevaActivitat)
                         _activitats.postValue(activitatsActuales)
+                        onMessage("Actividad creada correctamente")
                     }
                 } else {
-                    Log.e("APICREATE", "Error HTTP al crear activitat: ${response.code()}")
+                    onMessage("Error HTTP al crear actividad: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("APICREATE", "Error de conexión al crear activitat", e)
+            } catch (_: Exception) {
+                onMessage("Error de conexión al crear actividad")
             }
         }
     }
 
-    fun deleteSalas(id: Long) {
+    fun deleteSalas(id: Long, onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             val response = Api.getSalaService().eliminarSala(id)
-            Log.d("APIDELETE", "Response: $response")
             if (response.isSuccessful) {
-                Log.d("APIDELETE", "Sala eliminada con éxito")
                 val salasActuales = _salas.value ?: mutableListOf()
                 salasActuales.removeIf { it.id == id }
                 _salas.postValue(salasActuales)
+                onMessage("Sala eliminada correctamente")
             } else {
-                Log.e("API", "Error HTTP al eliminar sala: ${response.code()}")
+                onMessage("Error HTTP al eliminar sala: ${response.code()}")
             }
         }
     }
 
-    fun deleteActivitats(id: Long) {
+    fun deleteActivitats(id: Long, onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             val response = Api.getActivitatService().deleteByID(id)
             if (response.isSuccessful) {
                 val activitats = _activitats.value ?: mutableListOf()
                 activitats.removeIf { it.idActivitat == id }
                 _activitats.postValue(activitats)
-            }else {
-                Log.e("API", "Error HTTP al eliminar activitdad: ${response.code()}")
+                onMessage("Actividad eliminada correctamente")
+            } else {
+                onMessage("Error HTTP al eliminar actividad: ${response.code()}")
             }
         }
     }
 
-    fun updateSala(id: Long, sala: SalaRequestDto) {
+    fun updateSala(id: Long, sala: SalaRequestDto, onMessage: (String) -> Unit = {}) {
         viewModelScope.launch {
             val response = Api.getSalaService().editarSala(id, sala)
             if (response.isSuccessful) {
@@ -134,14 +166,21 @@ class SalaViewModel : ViewModel() {
                     val salasActuales = _salas.value ?: mutableListOf()
                     salasActuales[index] = response.body() ?: salasActuales[index]
                     _salas.postValue(salasActuales)
+                    onMessage("Sala editada correctamente")
                 }
             } else {
-                Log.e("API", "Error HTTP al editar sala: ${response.code()}")
+                onMessage("Error HTTP al editar sala: ${response.code()}")
             }
         }
     }
 
-    fun updateActivitat(id: Long, activitat: ActivitatRequestDto) {
+    fun updateActivitat(id: Long, activitat: ActivitatRequestDto, onMessage: (String) -> Unit = {}) {
+        val errorValidacion = ActivitatValidator.validar(activitat, _activitats.value ?: emptyList(), idPropio = id)
+        if (errorValidacion != null) {
+            onMessage(errorValidacion)
+            return
+        }
+
         viewModelScope.launch {
             try {
                 val response = Api.getActivitatService().editarActivitat(id, activitat)
@@ -153,13 +192,14 @@ class SalaViewModel : ViewModel() {
                         if (index != -1) {
                             activitatsActuals[index] = activitatActualitzada
                             _activitats.postValue(activitatsActuals)
+                            onMessage("Actividad editada correctamente")
                         }
                     }
                 } else {
-                    Log.e("API", "Error HTTP al editar activitat: ${response.code()}")
+                    onMessage("Error HTTP al editar actividad: ${response.code()}")
                 }
-            } catch (e: Exception) {
-                Log.e("API", "Error de conexión al editar activitat", e)
+            } catch (_: Exception) {
+                onMessage("Error de conexión al editar actividad")
             }
         }
     }

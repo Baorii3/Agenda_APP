@@ -9,4 +9,4 @@
     android:paddingBottom="4dp"
     android:textSize="14sp"
     android:textStyle="bold"
-    android:textColor="#757575" />
+    android:textColor="@color/android_sub" />

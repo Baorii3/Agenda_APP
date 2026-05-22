@@ -1,9 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.AGENDA" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <item name="android:statusBarColor">@color/color_primary_dark</item>
+
+        <item name="android:windowBackground">@color/bg_android</item>
+        <item name="colorSurface">@color/card_surface</item>
+
+        <item name="toolbarStyle">@style/Widget.AGENDA.Toolbar</item>
     </style>
 
     <style name="Theme.AGENDA" parent="Base.Theme.AGENDA" />
+
+    <style name="Widget.AGENDA.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/android_blue</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
 </resources>

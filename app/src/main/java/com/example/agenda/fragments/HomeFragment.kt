@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,9 @@ class HomeFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
-        viewModel.cargarSalasApi()
+        viewModel.cargarSalasApi { message ->
+            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+        }
         adapter = SalaAdapter(
             salas = emptyList(),
             onItemClick = { item ->
@@ -61,7 +64,9 @@ class HomeFragment : Fragment() {
                             true
                         }
                         R.id.pop_eliminar -> {
-                            viewModel.deleteSalas(item.id)
+                            viewModel.deleteSalas(item.id) { message ->
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                            }
                             true
                         }
                         else -> false
@@ -103,7 +108,9 @@ class HomeFragment : Fragment() {
                 ubicacio = ubicacio ?: "P0",
                 descripcio = descripcio ?: "",
             )
-            viewModel.addSala(sala)
+            viewModel.addSala(sala) { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
         }
 
         parentFragmentManager.setFragmentResultListener("updateSalaRequest", this) { _, bundle ->
@@ -124,7 +131,9 @@ class HomeFragment : Fragment() {
                 return@setFragmentResultListener
             }
             val sala = SalaRequestDto(nom, ubicacio, descripcio)
-            viewModel.updateSala(id, sala)
+            viewModel.updateSala(id, sala) { message ->
+                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+            }
 
         }
         return view

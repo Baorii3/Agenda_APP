@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFFFFF">
+    android:background="@color/card_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,7 +12,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#1976D2"
+            android:background="@color/android_blue"
             android:orientation="vertical"
             android:padding="20dp">
 
@@ -20,7 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/dialog_update_activity_title"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="@string/dialog_update_subtitle"
-                android:textColor="#B3FFFFFF"
+                android:textColor="@color/text_muted"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_title"
-                android:textColor="#333333"
+                android:textColor="@color/text_h1"
                 android:textStyle="bold" />
 
             <EditText
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_date"
-                android:textColor="#333333"
+                android:textColor="@color/text_h1"
                 android:textStyle="bold" />
 
             <EditText
@@ -121,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="@string/label_asignado_a"
-                android:textColor="#333333"
+                android:textColor="@color/text_h1"
                 android:textStyle="bold" />
 
             <Spinner
@@ -129,13 +129,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginBottom="16dp"
-                android:background="#F5F5F5" />
+                android:background="@color/bg_app_web" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/label_description"
-                android:textColor="#333333"
+                android:textColor="@color/text_h1"
                 android:textStyle="bold" />
 
             <EditText

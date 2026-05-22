@@ -11,16 +11,16 @@
         },
         "CognitoUserPool": {
           "Default": {
-            "PoolId": "us-east-1_eXOAp74KV",
-            "AppClientId": "5u259dphsi29sjqo8vj9fhv2me",
+            "PoolId": "us-east-1_RZnmz9DKa",
+            "AppClientId": "7vu1gscig6k1gvmjgfdhur0d7t",
             "Region": "us-east-1"
           }
         },
         "Auth": {
           "Default": {
             "OAuth": {
-              "WebDomain": "agenda-barata-auth-c44f17.auth.us-east-1.amazoncognito.com",
-              "AppClientId": "5u259dphsi29sjqo8vj9fhv2me",
+              "WebDomain": "restricted-ecs-project-auth.auth.us-east-1.amazoncognito.com",
+              "AppClientId": "7vu1gscig6k1gvmjgfdhur0d7t",
               "SignInRedirectURI": "agenda-app://callback",
               "SignOutRedirectURI": "agenda-app://signout",
               "Scopes": [

@@ -48,9 +48,14 @@ class Api {
 
                 val gsondateformat = GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create()
 
+                val okHttpClient = OkHttpClient.Builder()
+                    .addInterceptor(AuthInterceptor(authManager))
+                    .build()
+
                 mRutinaApi = Retrofit.Builder()
                     .addConverterFactory(GsonConverterFactory.create(gsondateformat))
-                    .baseUrl("https://api.agenda.ianordonez.cat/")
+                    .baseUrl("https://api.agenda.ianordonez.cat/api/")
+                    .client(okHttpClient)
                     .build()
             }
         }

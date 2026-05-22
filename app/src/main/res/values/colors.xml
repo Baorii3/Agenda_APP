@@ -1,5 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+    <color name="black">#0F172A</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="color_primary">#2563EB</color>
+    <color name="color_primary_light">#3B82F6</color>
+    <color name="color_primary_dark">#1D4ED8</color>
+    <color name="android_blue">#1976D2</color>
+
+    <color name="bg_app_web">#F8FAFC</color>
+    <color name="bg_android">#F8F9FA</color>
+    <color name="card_surface">#FFFFFF</color>
+    <color name="icon_bg">#E3F2FD</color>
+    <color name="home_panel">#EEF2FF</color>
+    <color name="today_calendar">#EFF6FF</color>
+
+    <color name="text_h1">#0F172A</color>
+    <color name="text_body">#1E293B</color>
+    <color name="android_title">#212121</color>
+    <color name="text_secondary">#475569</color>
+    <color name="text_muted">#64748B</color>
+    <color name="placeholder">#94A3B8</color>
+    <color name="android_desc">#616161</color>
+    <color name="android_sub">#757575</color>
+
+    <color name="success">#4CAF50</color>
+    <color name="success_dark">#2E7D32</color>
+    <color name="error_android">#D32F2F</color>
+    <color name="error_web">#B91C1C</color>
+    <color name="error_bg">#FEE2E2</color>
+    <color name="success_bg">#DCFCE7</color>
+
+    <color name="menu_login">#2E7D32</color>
+    <color name="menu_logout">#C62828</color>
+
+    <color name="room_red">#E53935</color>
+    <color name="room_green">#43A047</color>
+    <color name="room_blue">#1E88E5</color>
+    <color name="room_yellow">#FDD835</color>
+    <color name="room_orange">#FB8C00</color>
+    <color name="room_purple">#8E24AA</color>
+    <color name="room_cyan">#00ACC1</color>
+    <color name="room_magenta">#D81B60</color>
 </resources>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="160dp"
+    android:orientation="vertical"
+    android:gravity="bottom"
+    android:padding="16dp"
+    android:background="@color/android_blue">
+
+    <TextView
+        android:id="@+id/nav_header_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="@string/menu_login" />
+
+    <TextView
+        android:id="@+id/nav_header_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/white"
+        android:text="" />
+
+</LinearLayout>

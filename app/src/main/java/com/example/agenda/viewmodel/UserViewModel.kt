@@ -1,6 +1,5 @@
 package com.example.agenda.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import com.example.agenda.api.ActivitatResponseDto
 import com.example.agenda.api.Api
-import com.example.agenda.api.PermisoDto
 import com.example.agenda.api.UsuariResponseDto
 import kotlinx.coroutines.launch
 
@@ -21,16 +19,15 @@ class UserViewModel : ViewModel() {
     private val _listasPropies = MutableLiveData<List<ActivitatResponseDto>>(emptyList())
     val listasPropies: LiveData<List<ActivitatResponseDto>> = _listasPropies
 
-    fun userCan(permission: PermisoDto): Boolean {
-        Log.d("UserViewModel", "Checking permission: $permission")
-        return hasPermission(_user.value, permission.recurso, permission.valor)
-    }
-
     fun canAccessDevices(): Boolean = canAccessDevices(_user.value)
 
     fun canAccessUsers(): Boolean = canAccessUsers(_user.value)
 
+    fun canAccessReservations(): Boolean = canAccessReservations(_user.value)
+
     fun canCreateSalas(): Boolean = canCreateSalas(_user.value)
+
+    fun canCreateActividades(): Boolean = canCreateActividades(_user.value)
 
     private fun canAccessDevices(currentUser: UsuariResponseDto?): Boolean {
         return isAdmin(currentUser) || hasPermission(currentUser, DEVICE_PERMISSION_KEY, LEVEL_READ)
@@ -40,12 +37,24 @@ class UserViewModel : ViewModel() {
         return isAdmin(currentUser) || hasPermission(currentUser, USERS_PERMISSION_KEY, LEVEL_READ)
     }
 
+    private fun canAccessReservations(currentUser: UsuariResponseDto?): Boolean {
+        return isProfesor(currentUser)
+    }
+
     private fun canCreateSalas(currentUser: UsuariResponseDto?): Boolean {
         return isAdmin(currentUser) || hasPermission(currentUser, SALA_CREATE_PERMISSION_KEY, LEVEL_CREATE)
     }
 
+    private fun canCreateActividades(currentUser: UsuariResponseDto?): Boolean {
+        return isAdmin(currentUser) || hasPermission(currentUser, ACTIVIDADES_CREATE_PERMISSION_KEY, LEVEL_CREATE)
+    }
+
     private fun isAdmin(currentUser: UsuariResponseDto?): Boolean {
         return currentUser?.rol.equals("admin", ignoreCase = true)
+    }
+
+    private fun isProfesor(currentUser: UsuariResponseDto?): Boolean {
+        return currentUser?.rol.equals("profesor", ignoreCase = true)
     }
 
     private fun hasPermission(currentUser: UsuariResponseDto?, key: String, minValue: Long = LEVEL_READ): Boolean {
@@ -59,27 +68,31 @@ class UserViewModel : ViewModel() {
         _user.postValue(user)
     }
 
-    fun fetchUserData(authHeader : String, onAuthError:() -> Unit) {
+    fun fetchUserData(
+        authHeader: String,
+        onAuthError: () -> Unit,
+        onMessage: (String) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 val response = Api.getUsuariService().crearUsuario(authHeader)
                 if (response.isSuccessful) {
-                    Log.i("APIFETCH", "Usuario cargado: ${response.body()}")
                     setUser(response.body())
+                    onMessage("Sesión cargada correctamente")
                 } else {
-                    Log.e("APIFETCH", "Error HTTP: ${response.code()}")
+                    onMessage("No se ha podido cargar el usuario")
                     onAuthError()
                 }
-            } catch (e: Exception) {
-                Log.e("APIFETCH", "Error de red", e)
+            } catch (_: Exception) {
+                onMessage("Error de red al cargar la sesión")
             }
         }
     }
 
-    fun fetchListasPropies() {
+    fun fetchListasPropies(onMessage: (String) -> Unit) {
         val currentUsuari = _user.value
         if (currentUsuari == null) {
-            Log.w("UserViewModel", "No se puede cargar las listas propias sin un usuario válido")
+            onMessage("No se puede cargar mis reservas sin usuario")
             return
         }
 
@@ -88,12 +101,12 @@ class UserViewModel : ViewModel() {
                 val response = Api.getActivitatService().llistaActivitatsByUsuari(currentUsuari.idUsuari)
                 if (response.isSuccessful) {
                     _listasPropies.postValue(response.body() ?: emptyList())
-                    Log.d("UserViewModel", "Listas propias cargadas: ${response.body()?.size ?: 0}")
+                    onMessage("Mis reservas cargadas correctamente")
                 } else {
-                    Log.e("API", "Error HTTP: ${response.code()}")
+                    onMessage("No se han podido cargar mis reservas")
                 }
-            } catch (e: Exception) {
-                Log.e("API", "Error de red", e)
+            } catch (_: Exception) {
+                onMessage("Error de red al cargar mis reservas")
             }
         }
     }
@@ -105,5 +118,6 @@ class UserViewModel : ViewModel() {
         private const val DEVICE_PERMISSION_KEY = "dispositivos"
         private const val USERS_PERMISSION_KEY = "usuarios"
         private const val SALA_CREATE_PERMISSION_KEY = "salas_create"
+        private const val ACTIVIDADES_CREATE_PERMISSION_KEY = "actividades_create"
     }
 }

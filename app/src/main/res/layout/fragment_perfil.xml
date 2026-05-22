@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA"
+    android:background="@color/bg_android"
     tools:context=".fragments.PerfilFragment">
 
     <View
         android:id="@+id/headerBackground"
         android:layout_width="match_parent"
         android:layout_height="160dp"
-        android:background="#1976D2"
+        android:background="@color/android_blue"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -23,8 +23,7 @@
         android:layout_marginTop="40dp"
         android:text="@string/profile_title"
         android:textColor="@color/white"
-        android:textSize="28sp"
-        android:textStyle="bold"
+        style="@style/TextAppearance.AGENDA.H1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -57,9 +56,8 @@
                 android:id="@+id/tvUserName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#333333"
-                android:textSize="22sp"
-                android:textStyle="bold"
+                android:textColor="@color/android_title"
+                style="@style/TextAppearance.AGENDA.TitleCard"
                 tools:text="Nombre" />
 
             <TextView
@@ -67,8 +65,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textColor="#757575"
-                android:textSize="16sp"
+                android:textColor="@color/android_desc"
+                style="@style/TextAppearance.AGENDA.Body"
                 tools:text="correo@gmail.com" />
 
         </LinearLayout>
@@ -81,8 +79,8 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="32dp"
         android:text="@string/menu_logout"
-        android:textColor="#FFFFFF"
-        android:backgroundTint="#D32F2F"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/error_android"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

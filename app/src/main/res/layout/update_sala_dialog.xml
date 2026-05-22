@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="#FFFFFF">
+    android:background="@color/card_surface">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#455A64"
+        android:background="@color/color_primary_dark"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/dialog_update_sala_title"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="@string/dialog_update_subtitle"
-            android:textColor="#B3FFFFFF"
+            android:textColor="@color/text_muted"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -39,7 +39,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_room_name"
-            android:textColor="#333333"
+            android:textColor="@color/text_h1"
             android:textStyle="bold" />
 
         <EditText
@@ -54,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_location"
-            android:textColor="#333333"
+            android:textColor="@color/text_h1"
             android:textStyle="bold" />
 
         <Spinner
@@ -62,13 +62,13 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="16dp"
-            android:background="#F5F5F5" />
+            android:background="@color/bg_app_web" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/label_description"
-            android:textColor="#333333"
+            android:textColor="@color/text_h1"
             android:textStyle="bold" />
 
         <EditText

@@ -45,7 +45,43 @@
         app:layout_constraintTop_toBottomOf="@+id/headerContainer"
         app:layout_constraintBottom_toTopOf="@+id/labelActividades"
         app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/add_sala" />
+        android:src="@drawable/add_sala"
+        android:contentDescription="@string/add_activitat_desc" />
+
+    <LinearLayout
+        android:id="@+id/filterContainer"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        app:layout_constraintStart_toEndOf="@id/addactivitatButton"
+        app:layout_constraintTop_toBottomOf="@+id/headerContainer"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/etFechaFiltroSala"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="@string/hint_date_format"
+            android:autofillHints=""
+            android:focusable="false"
+            android:backgroundTint="#1976D2"
+            android:inputType="none" />
+
+        <ImageButton
+            android:id="@+id/btnBuscarFechaSala"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/buscar"
+            android:layout_marginStart="8dp"
+            app:tint="#1976D2" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/labelActividades"
@@ -59,7 +95,7 @@
         android:textStyle="bold"
         android:letterSpacing="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/addactivitatButton" />
+        app:layout_constraintTop_toBottomOf="@id/filterContainer" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/activitatsRecyclerView"
