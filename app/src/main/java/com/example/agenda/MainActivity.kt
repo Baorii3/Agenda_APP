@@ -114,11 +114,13 @@ class MainActivity : AppCompatActivity() {
             val isLoggedIn = user != null
             val menu = binding.navView.menu
 
+            menu.findItem(R.id.nav_home).isVisible = true
+            menu.findItem(R.id.nav_profile).isVisible = false
+            menu.findItem(R.id.nav_devices).isVisible = false
+            menu.findItem(R.id.nav_usuarios).isVisible = false
+            menu.findItem(R.id.nav_reservations).isVisible = isLoggedIn && viewModelUsuari.canAccessReservations()
             menu.findItem(R.id.nav_logout).isVisible = isLoggedIn
             menu.findItem(R.id.nav_login).isVisible = !isLoggedIn
-            menu.findItem(R.id.nav_reservations).isVisible = viewModelUsuari.canAccessReservations()
-            menu.findItem(R.id.nav_devices).isVisible = viewModelUsuari.canAccessDevices()
-            menu.findItem(R.id.nav_usuarios).isVisible = viewModelUsuari.canAccessUsers()
 
             if (user != null) {
                 tvHeaderUser.text = user.nom

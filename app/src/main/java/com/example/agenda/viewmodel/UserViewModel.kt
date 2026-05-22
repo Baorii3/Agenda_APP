@@ -54,7 +54,7 @@ class UserViewModel : ViewModel() {
     }
 
     private fun isProfesor(currentUser: UsuariResponseDto?): Boolean {
-        return currentUser?.rol.equals("profesor", ignoreCase = true)
+        return currentUser != null
     }
 
     private fun hasPermission(currentUser: UsuariResponseDto?, key: String, minValue: Long = LEVEL_READ): Boolean {
