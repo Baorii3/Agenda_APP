@@ -23,6 +23,7 @@
     <string name="reservas_subtitle">Actividades que has organizado</string>
     <string name="profile_title">Mi Perfil</string>
     <string name="profile_role_label">Rol</string>
+    <string name="profile_role_value">%1$s: %2$s</string>
     <string name="upcoming_activities">PRÓXIMAS ACTIVIDADES</string>
 
     <string name="devices_title">Dispositivos</string>
@@ -37,7 +38,7 @@
     <string name="dialog_create_activity_title">Asignar Actividad</string>
     <string name="dialog_create_activity_subtitle">Panel de Administración</string>
 
-    <string name="label_profesor_responsable">Profesor / Responsable</string>
+    <string name="label_profesor_responsable">Responsable</string>
     <string name="label_asignado_a">Asignado a</string>
     <string name="label_activity_title">Título de la actividad</string>
     <string name="label_title">Título</string>
@@ -53,11 +54,11 @@
     <string name="hint_select_date">Selecciona fecha</string>
     <string name="hint_start_time">09:00</string>
     <string name="hint_end_time">11:00</string>
-    <string name="hint_session_details">Detalles de la sesión...</string>
+    <string name="hint_session_details">Detalles de la sesión…</string>
     <string name="hint_room_name_example">Ej: Sala Fitness</string>
-    <string name="hint_room_details">Detalles sobre el espacio...</string>
+    <string name="hint_room_details">Detalles sobre el espacio…</string>
     <string name="hint_current_name">Nombre actual</string>
-    <string name="hint_new_description">Escribe la nueva descripción...</string>
+    <string name="hint_new_description">Escribe la nueva descripción…</string>
 
     <string name="placeholder_activity_name">Nombre de la actividad</string>
     <string name="placeholder_activity_description">Descripción</string>

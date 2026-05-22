@@ -15,6 +15,7 @@ import com.amplifyframework.core.Amplify
 import com.bumptech.glide.Glide
 import com.example.agenda.R
 import com.example.agenda.viewmodel.UserViewModel
+
 class PerfilFragment : Fragment() {
 
     private val viewModelUsuari: UserViewModel by activityViewModels<UserViewModel>()
@@ -32,21 +33,24 @@ class PerfilFragment : Fragment() {
         val tvUserEmail = view.findViewById<TextView>(R.id.tvUserEmail)
         val tvUserRole = view.findViewById<TextView>(R.id.tvUserRole)
         val image = view.findViewById<ImageView>(R.id.imgAvatar)
-
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
 
         btnLogout.setOnClickListener {
-            Amplify.Auth.signOut { signOutResult ->
+            Amplify.Auth.signOut {
                 viewModelUsuari.setUser(null)
             }
         }
-
 
         Log.d("PerfilFragment", "Usuario logueado: ${viewModelUsuari.user.value}")
         if (viewModelUsuari.user.value != null) {
             tvUserName.text = viewModelUsuari.user.value?.nom
             tvUserEmail.text = viewModelUsuari.user.value?.email
-            tvUserRole.text = getString(R.string.profile_role_label) + ": " + viewModelUsuari.user.value?.rol
+            tvUserRole.text = getString(
+                R.string.profile_role_value,
+                getString(R.string.profile_role_label),
+                viewModelUsuari.user.value?.rol.orEmpty()
+            )
+            btnLogout.isVisible = true
         }
 
         if (viewModelUsuari.user.value == null) {
@@ -61,7 +65,12 @@ class PerfilFragment : Fragment() {
             if (user != null) {
                 tvUserName.text = user.nom
                 tvUserEmail.text = user.email
-                tvUserRole.text = getString(R.string.profile_role_label) + ": " + user.rol
+                tvUserRole.text = getString(
+                    R.string.profile_role_value,
+                    getString(R.string.profile_role_label),
+                    user.rol
+                )
+                btnLogout.isVisible = true
                 Glide.with(this)
                     .load(user.picture)
                     .error(R.drawable.ic_launcher_background)

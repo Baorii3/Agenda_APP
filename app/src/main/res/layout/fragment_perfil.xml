@@ -50,6 +50,8 @@
                 android:layout_height="80dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/ic_launcher_background"
+                android:contentDescription="@null"
+                tools:ignore="ContentDescription"
                 app:srcCompat="@android:drawable/ic_menu_camera" />
 
             <TextView
