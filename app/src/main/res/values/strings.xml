@@ -22,6 +22,7 @@
     <string name="home_subtitle">Reserva tu espacio de trabajo hoy</string>
     <string name="reservas_subtitle">Actividades que has organizado</string>
     <string name="profile_title">Mi Perfil</string>
+    <string name="profile_role_label">Rol</string>
     <string name="upcoming_activities">PRÓXIMAS ACTIVIDADES</string>
 
     <string name="devices_title">Dispositivos</string>

@@ -69,6 +69,15 @@
                 style="@style/TextAppearance.AGENDA.Body"
                 tools:text="correo@gmail.com" />
 
+            <TextView
+                android:id="@+id/tvUserRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_secondary"
+                style="@style/TextAppearance.AGENDA.Body"
+                tools:text="Rol: Profesor" />
+
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

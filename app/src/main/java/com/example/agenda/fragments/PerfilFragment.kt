@@ -30,6 +30,7 @@ class PerfilFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_perfil, container, false)
         val tvUserName = view.findViewById<TextView>(R.id.tvUserName)
         val tvUserEmail = view.findViewById<TextView>(R.id.tvUserEmail)
+        val tvUserRole = view.findViewById<TextView>(R.id.tvUserRole)
         val image = view.findViewById<ImageView>(R.id.imgAvatar)
 
         val btnLogout = view.findViewById<Button>(R.id.btnLogout)
@@ -45,11 +46,13 @@ class PerfilFragment : Fragment() {
         if (viewModelUsuari.user.value != null) {
             tvUserName.text = viewModelUsuari.user.value?.nom
             tvUserEmail.text = viewModelUsuari.user.value?.email
+            tvUserRole.text = getString(R.string.profile_role_label) + ": " + viewModelUsuari.user.value?.rol
         }
 
         if (viewModelUsuari.user.value == null) {
             tvUserName.text = ""
             tvUserEmail.text = ""
+            tvUserRole.text = ""
             image.setImageResource(R.drawable.ic_launcher_background)
             btnLogout.isVisible = false
         }
@@ -58,6 +61,7 @@ class PerfilFragment : Fragment() {
             if (user != null) {
                 tvUserName.text = user.nom
                 tvUserEmail.text = user.email
+                tvUserRole.text = getString(R.string.profile_role_label) + ": " + user.rol
                 Glide.with(this)
                     .load(user.picture)
                     .error(R.drawable.ic_launcher_background)
@@ -65,6 +69,7 @@ class PerfilFragment : Fragment() {
             } else {
                 tvUserName.text = ""
                 tvUserEmail.text = ""
+                tvUserRole.text = ""
                 image.setImageResource(R.drawable.ic_launcher_background)
                 btnLogout.isVisible = false
             }
